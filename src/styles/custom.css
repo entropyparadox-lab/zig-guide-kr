@@ -1,0 +1,35 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+:root {
+  --sl-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --sl-color-accent-low: #3a2202;
+  --sl-color-accent: #f7a41d;
+  --sl-color-accent-high: #fce2b8;
+}
+
+[data-theme='light'] {
+  --sl-color-accent-low: #fef0db;
+  --sl-color-accent: #d97706;
+  --sl-color-accent-high: #78350f;
+}
+
+/* Typography polish for Korean reading */
+body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  letter-spacing: -0.015em;
+  line-height: 1.75;
+}
+
+/* Code block adjustments */
+pre, code {
+  font-feature-settings: "calt" 1;
+  letter-spacing: 0;
+}
+
+/* Badge styling */
+.sl-badge {
+  font-weight: 600;
+  border-radius: 4px;
+}

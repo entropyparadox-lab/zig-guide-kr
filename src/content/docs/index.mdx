@@ -1,0 +1,41 @@
+---
+title: Zig 한국어 문서 & 실전 가이드
+description: Zig 공식 언어 레퍼런스(v0.13.0) 완역 및 Rails Guides 스타일의 실전 한국어 튜토리얼
+template: splash
+hero:
+  tagline: 더 견고하고, 최적화 가능하며, 유지보수하기 쉬운 시스템 프로그래밍 언어 Zig를 한국어로 배우세요.
+  image:
+    file: ../../assets/zig-logo.svg
+  actions:
+    - text: Rails-style 실전 가이드
+      link: /zig-guide-kr/guides/01-getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: 공식 언어 레퍼런스 (v0.13.0)
+      link: /zig-guide-kr/docs/0.13.0/overview/
+      icon: open-book
+      variant: secondary
+    - text: 개발자 용어집 (Glossary)
+      link: /zig-guide-kr/glossary/
+      icon: document
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## 주요 구성 (Two-Track Architecture)
+
+<CardGrid stagger>
+	<Card title="Rails-style 실전 가이드 (Track B)" icon="rocket">
+		입문자부터 실무 시스템 엔지니어까지 단계별로 따라하며 완성하는 직관적인 핸드북입니다. 환경 설정부터 `build.zig`, Allocator 패턴, Comptime, C FFI까지 실무 중심으로 다룹니다.
+	</Card>
+	<Card title="공식 레퍼런스 완역 (Track A)" icon="open-book">
+		Zig 0.13.0 공식 Language Reference를 1:1로 원문 그대로 충실하게 한글화했습니다. 스펙과 문법을 깊이 있게 참조할 때 활용하세요.
+	</Card>
+	<Card title="개발자 친화적 어휘 & 원본 코드 보존" icon="translate">
+		무리한 한글화 대신 개발자들이 실제로 사용하는 어휘(Allocator, Comptime, Slice, Defer 등)를 채택하고, 모든 코드 스니펫은 100% 영문 코드로 유지됩니다.
+	</Card>
+	<Card title="CI 기반 코드 자동 검증" icon="setting">
+		문서에 포함된 모든 Zig 예제 코드는 GitHub Actions CI를 통해 실제 `zig test` 및 `zig build-exe`로 유효성을 자동 검증합니다.
+	</Card>
+</CardGrid>
