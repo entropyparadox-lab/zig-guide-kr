@@ -14,8 +14,8 @@
 ### 1. Three-Track (3트랙) 문서 구조
 - **타 언어 개발자 트랙 (`/from-other-languages/`)**:
   - C/C++, Rust, Go, Python/TypeScript 개발자를 위해 기존 언어의 멘탈 모델과 Zig 시스템 프로그래밍 패러다임을 1:1로 비교 대조.
-- **Track A (공식 언어 레퍼런스 완역, `/docs/0.13.0/`)**:
-  - `docs.ziglang.org/0.13.0`의 공식 Language Reference 1:1 완역.
+- **Track A (공식 언어 레퍼런스 완역, `/docs/0160/`)**:
+  - `docs.ziglang.org/0.16.0`의 공식 Language Reference 1:1 완역.
   - 기본 문법, 타입 시스템, 구조체/열거형/유니온, 포인터/슬라이스, Comptime, 에러 처리, 빌드 시스템, 메모리 모델, C ABI, 스레드/아토믹, I/O 스트림 등 총 11개 챕터 구성.
 - **Track B (Zig 실전 핸드북, `/guides/`)**:
   - 문제 해결과 실무 개발 흐름 중심의 체계적인 핸드북.
