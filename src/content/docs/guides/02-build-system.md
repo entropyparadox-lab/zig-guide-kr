@@ -1,11 +1,11 @@
 ---
 title: "02. 빌드 시스템 완벽 가이드 (build.zig)"
-description: "Zig의 선언적 빌드 시스템, build.zig 작성법, 의존성 패키지 관리(zon)를 마스터합니다."
+description: "Zig 0.16.0의 모듈 기반 선언적 빌드 시스템, build.zig 작성법, 의존성 패키지 관리(zon)를 마스터합니다."
 ---
 
 # 02. 빌드 시스템 완벽 가이드 (build.zig)
 
-Make, CMake, Cargo와 같은 별도 DSL이나 툴 대신, Zig은 **빌드 스크립트 자체를 Zig 언어로 작성(`build.zig`)**합니다. 이 챕터에서는 `build.zig`의 구조와 패키지 매니저(`build.zig.zon`)를 활용한 의존성 관리법을 알아봅니다.
+Make, CMake, Cargo와 같은 별도 DSL이나 툴 대신, Zig은 **빌드 스크립트 자체를 Zig 언어로 작성(`build.zig`)**합니다. 이 챕터에서는 Zig 0.16.0의 모듈(`std.Build.Module`) 기반 빌드 시스템과 패키지 매니저(`build.zig.zon`)를 활용한 의존성 관리법을 알아봅니다.
 
 ---
 
@@ -30,7 +30,9 @@ my-app/
 
 ---
 
-## 2. `build.zig`의 기본 구조 (v0.16.0)
+## 2. `build.zig`의 기본 구조 (v0.16.0 모듈 아키텍처)
+
+Zig 0.16.0에서는 빌드 파이프라인이 **일급 모듈(`Module`)** 중심으로 설계되어 컴파일 타깃, 최적화 모드, 소스 루트를 모듈 단위로 정의합니다.
 
 `build.zig`:
 ```zig
@@ -41,18 +43,23 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    // 2. 실행 파일 컴파일 단계 정의
-    const exe = b.addExecutable(.{
-        .name = "my-app",
+    // 2. 루트 모듈 생성
+    const exe_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
 
+    // 3. 실행 파일 컴파일 단계 정의
+    const exe = b.addExecutable(.{
+        .name = "my-app",
+        .root_module = exe_mod,
+    });
+
     // 빌드 결과물을 zig-out/bin에 설치하는 단계 추가
     b.installArtifact(exe);
 
-    // 3. 'zig build run' 명령 단계 정의
+    // 4. 'zig build run' 명령 단계 정의
     const run_cmd = b.addRunArtifact(exe);
     run_cmd.step.dependOn(b.getInstallStep());
 
@@ -63,11 +70,14 @@ pub fn build(b: *std.Build) void {
     const run_step = b.step("run", "Run the app");
     run_step.dependOn(&run_cmd.step);
 
-    // 4. 'zig build test' 명령 단계 정의
-    const exe_unit_tests = b.addTest(.{
+    // 5. 'zig build test' 명령 단계 정의
+    const test_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
+    });
+    const exe_unit_tests = b.addTest(.{
+        .root_module = test_mod,
     });
 
     const run_exe_unit_tests = b.addRunArtifact(exe_unit_tests);
@@ -76,29 +86,11 @@ pub fn build(b: *std.Build) void {
 }
 ```
 
-### 주요 빌드 명령
-```bash
-# 기본 빌드 (zig-out/bin/my-app 생성)
-zig build
-
-# 릴리스 모드로 빌드
-zig build -Doptimize=ReleaseFast
-
-# 다른 플랫폼으로 크로스 컴파일 (예: Windows x86_64)
-zig build -Dtarget=x86_64-windows
-
-# 빌드 및 실행
-zig build run
-
-# 전체 테스트 실행
-zig build test
-```
-
 ---
 
-## 3. 패키지 매니저 (`build.zig.zon`)
+## 3. `build.zig.zon`을 통한 외부 패키지 의존성 관리
 
-Zig 0.11+부터 내장된 패키지 매니저는 ZON(Zig Object Notation) 형식을 사용합니다.
+Zig은 탈중앙화된 Git 및 HTTP tarball 패키지 관리를 기본 지원합니다.
 
 `build.zig.zon`:
 ```zon
@@ -107,7 +99,7 @@ Zig 0.11+부터 내장된 패키지 매니저는 ZON(Zig Object Notation) 형식
     .version = "0.1.0",
     .minimum_zig_version = "0.16.0",
     .dependencies = .{
-        // 외부 패키지 의존성 예시
+        // 외부 패키지 의존성 선언
     },
     .paths = .{
         "build.zig",
@@ -117,13 +109,12 @@ Zig 0.11+부터 내장된 패키지 매니저는 ZON(Zig Object Notation) 형식
 }
 ```
 
-### 외부 패키지 추가하기
+### 패키지 추가 명령:
 ```bash
-# GitHub 또는 URL에서 패키지 자동 추가 및 해시 계산
 zig fetch --save git+https://github.com/ziglibs/known-folders.git
 ```
 
-`build.zig`에서 모듈 임포트:
+`build.zig`에서 모듈 임포트 연결:
 ```zig
 // pseudo
 const known_folders = b.dependency("known-folders", .{
@@ -135,7 +126,15 @@ exe.root_module.addImport("known-folders", known_folders.module("known-folders")
 
 ---
 
-## 💡 요약
+## 4. 커스텀 빌드 스텝 추가
 
-- `build.zig`는 완전한 프로그래밍 언어의 표현력을 가지므로 복잡한 전처리, 코드 생성, C 라이브러리 링크를 안전하고 명확하게 제어할 수 있습니다.
-- `build.zig.zon`을 통해 외부 의존성을 SHA-256 무결성 검증과 함께 선언적으로 관리합니다.
+```zig
+// pseudo
+const doc_step = b.step("docs", "Generate HTML documentation");
+const install_docs = b.addInstallDirectory(.{
+    .source_dir = exe.getEmittedDocs(),
+    .install_dir = .prefix,
+    .install_subdir = "docs",
+});
+doc_step.dependOn(&install_docs.step);
+```

@@ -59,45 +59,42 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const exe = b.addExecutable(.{
-        .name = "c-hybrid-app",
+    const exe_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
+    exe_mod.link_libc = true;
 
-    // C 소스 파일 및 헤더 디렉터리 추가
-    exe.addCSourceFile(.{
-        .file = b.path("src/legacy_math.c"),
-        .flags = &[_][]const u8{"-std=c99", "-O3"},
+    const exe = b.addExecutable(.{
+        .name = "c-hybrid-app",
+        .root_module = exe_mod,
     });
-    exe.addIncludePath(b.path("include"));
-    exe.linkLibC();
-
+    exe.addCSourceFile(.{
+        .file = b.path("c_src/fast_math.c"),
+        .flags = &[_][]const u8{ "-Wall", "-O3" },
+    });
     b.installArtifact(exe);
 }
 ```
 
 ---
 
-## 3. Zig을 C/C++ 드롭인 컴파일러로 활용 (`zig cc` / `zig c++`)
+## 3. Zig 컴파일러를 C/C++ 드롭인 컴파일러로 활용 (`zig cc`)
 
-Zig 배포판에는 완전한 Clang 및 musl libc, mingw-w64가 내장되어 있어, 모든 타깃으로 손쉽게 크로스 컴파일할 수 있습니다.
+Zig은 내부에 완전한 Clang/LLVM 툴체인을 내장하고 있어, `gcc`나 `clang` 대신 즉시 드롭인으로 사용할 수 있습니다.
 
+### C 파일 컴파일:
 ```bash
-# gcc나 clang 대신 zig cc로 C 소스 컴파일
-zig cc -o app main.c
-
-# x86_64 리눅스에서 Windows x86_64용 .exe 크로스 컴파일
-zig cc -target x86_64-windows -o app.exe main.c
-
-# aarch64(Apple Silicon / Linux ARM64) 크로스 컴파일
-zig cc -target aarch64-linux-gnu -o app_arm64 main.c
+zig cc -O3 -o fast_program fast_program.c
 ```
 
----
+### 크로스 컴파일 (Linux에서 Windows 64비트 바이너리 생성):
+```bash
+zig cc -target x86_64-windows-gnu -o app.exe main.c
+```
 
-## 💡 요약
-
-- Zig은 C 바인딩을 수동 작성할 필요 없이 `@cImport`로 실시간 변환합니다.
-- `zig cc`와 `zig c++`는 CMake, autotools, Make 프로젝트의 `CC`/`CXX` 환경변수에 바로 지정해 강력한 크로스 컴파일 툴로 활용할 수 있습니다.
+### 크로스 컴파일 (macOS ARM64 타깃 생성):
+```bash
+zig cc -target aarch64-macos -o app_mac main.c
+```

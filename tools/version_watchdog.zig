@@ -2,7 +2,6 @@ const std = @import("std");
 
 pub fn main() !void {
     const allocator = std.heap.page_allocator;
-    const stdout = std.io.getStdOut().writer();
 
     // 1. Fetch https://ziglang.org/download/index.json via std.http.Client
     var client = std.http.Client{ .allocator = allocator };
@@ -20,7 +19,7 @@ pub fn main() !void {
     });
 
     if (res.status != .ok) {
-        try stdout.print("{{\"error\": \"HTTP status {d}\"}}\n", .{@intFromEnum(res.status)});
+        std.debug.print("{{\"error\": \"HTTP status {d}\"}}\n", .{@intFromEnum(res.status)});
         return;
     }
 
@@ -29,7 +28,7 @@ pub fn main() !void {
     defer parsed.deinit();
 
     if (parsed.value != .object) {
-        try stdout.print("{{\"error\": \"invalid JSON root\"}}\n", .{});
+        std.debug.print("{{\"error\": \"invalid JSON root\"}}\n", .{});
         return;
     }
 
@@ -44,7 +43,7 @@ pub fn main() !void {
     }
 
     const latest = latest_version orelse {
-        try stdout.print("{{\"error\": \"no release version found\"}}\n", .{});
+        std.debug.print("{{\"error\": \"no release version found\"}}\n", .{});
         return;
     };
 
@@ -57,7 +56,7 @@ pub fn main() !void {
         const new_file = try std.fs.cwd().createFile(tracked_path, .{});
         defer new_file.close();
         try new_file.writer().print("{{\n  \"latest_release\": \"{s}\"\n}}\n", .{latest});
-        try stdout.print("{{\"status\": \"initialized\", \"current_version\": \"{s}\"}}\n", .{latest});
+        std.debug.print("{{\"status\": \"initialized\", \"current_version\": \"{s}\"}}\n", .{latest});
         return;
     }
     defer tracked_file.?.close();
@@ -76,9 +75,9 @@ pub fn main() !void {
     }
 
     if (std.mem.eql(u8, latest, known_latest)) {
-        try stdout.print("{{\"status\": \"no_change\", \"current_version\": \"{s}\"}}\n", .{known_latest});
+        std.debug.print("{{\"status\": \"no_change\", \"current_version\": \"{s}\"}}\n", .{known_latest});
     } else {
-        try stdout.print(
+        std.debug.print(
             "{{\"status\": \"new_version_detected\", \"old_version\": \"{s}\", \"new_version\": \"{s}\"}}\n",
             .{ known_latest, latest },
         );
