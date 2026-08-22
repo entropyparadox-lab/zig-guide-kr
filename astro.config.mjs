@@ -33,6 +33,13 @@ export default defineConfig({
           ],
         },
         {
+          label: '🚀 타 언어 사용자를 위한 Zig',
+          badge: { text: 'New', variant: 'tip' },
+          items: [
+            { autogenerate: { directory: 'from-other-languages' } }
+          ],
+        },
+        {
           label: '📖 Rails-style 실전 가이드',
           items: [
             { autogenerate: { directory: 'guides' } }

@@ -10,7 +10,14 @@
 
 ---
 
-## 🚀 프로젝트 주요 구성 (Two-Track Architecture)
+## 🚀 프로젝트 주요 구성 (Three-Track Architecture)
+
+### 🚀 타 언어 사용자를 위한 Zig 가이드 (`/from-other-languages/`)
+기존 언어의 멘탈 모델과 Zig의 시스템 프로그래밍 패러다임을 1:1로 비교 대조하는 가이드입니다.
+- **C/C++ 개발자를 위한 Zig**: 전처리기 매크로 대안(`comptime`), `malloc` 대신 `Allocator`, 미정의 동작(UB) 방어, `@cImport` 및 `zig cc`
+- **Rust 개발자를 위한 Zig**: Borrow Checker vs 수동/Arena 메모리(`defer`), `Result`/`Option` vs 에러 유니온(`!T`/`?T`), Proc Macro vs `comptime`
+- **Go 개발자를 위한 Zig**: GC 없는 결정론적 메모리, `if err != nil` vs `try`/`errdefer`, 고루틴 vs OS 스레드, 블록 스코프 `defer`
+- **Python/TypeScript 개발자를 위한 Zig**: 동적 인터프리터에서 정적 메모리 모델로, `null` vs `undefined`, C ABI 호환 초고속 네이티브 확장 모듈 제작
 
 ### 📖 Track B: Rails-style 실전 가이드 (`/guides/`)
 입문자부터 실무 시스템 엔지니어까지 단계별로 따라 하며 동작하는 프로젝트를 완성하는 직관적인 핸드북입니다.
