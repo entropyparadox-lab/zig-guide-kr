@@ -8,7 +8,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Zig 한국어 가이드',
-      description: 'Zig 공식 언어 레퍼런스(v0.13.0) 완역 및 Rails Guides 스타일의 실전 한국어 튜토리얼',
+      description: 'Zig 공식 언어 레퍼런스(v0.13.0) 완역 및 실전 한국어 핸드북 & 가이드',
       logo: {
         alt: 'Zig KR Logo',
         src: './src/assets/zig-logo.svg',
@@ -40,7 +40,7 @@ export default defineConfig({
           ],
         },
         {
-          label: '📖 Rails-style 실전 가이드',
+          label: '📖 Zig 실전 핸드북',
           items: [
             { autogenerate: { directory: 'guides' } }
           ],
