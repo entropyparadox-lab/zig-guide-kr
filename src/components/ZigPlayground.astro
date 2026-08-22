@@ -88,7 +88,8 @@
 
 <style>
   /* Theme Variables Default (Dark Theme) */
-  :root, [data-theme='dark'] {
+  :global(:root),
+  :global(html[data-theme='dark']) {
     --pg-bg-container: #0d1117;
     --pg-border-container: #30363d;
     --pg-bg-toolbar: #161b22;
@@ -131,7 +132,7 @@
   }
 
   /* Light Theme (Pure Light / Editorial) */
-  [data-theme='light'] {
+  :global(html[data-theme='light']) {
     --pg-bg-container: #ffffff;
     --pg-border-container: #d0d7de;
     --pg-bg-toolbar: #f6f8fa;
@@ -140,7 +141,7 @@
     --pg-bg-dropdown: #ffffff;
     --pg-text-dropdown: #24292f;
     --pg-border-dropdown: #d0d7de;
-    --pg-bg-btn-sec: #f6f8fa;
+    --pg-bg-btn-sec: #ffffff;
     --pg-text-btn-sec: #24292f;
     --pg-border-btn-sec: #d0d7de;
     --pg-bg-btn-sec-hover: #eaeef2;
@@ -162,14 +163,14 @@
     --pg-hl-type: #0550ae;
     --pg-hl-string: #0a3069;
     --pg-hl-number: #0550ae;
-    --pg-hl-comment: #57606a;
+    --pg-hl-comment: #6e7781;
     --pg-hl-fn: #8250df;
     --pg-hl-op: #24292f;
 
     --pg-bg-term: #0d1117;
     --pg-bg-term-header: #161b22;
     --pg-border-term: #30363d;
-    --pg-text-term: #c9d1d9;
+    --pg-text-term: #e6edf3;
     --pg-text-term-dim: #8b949e;
   }
 
