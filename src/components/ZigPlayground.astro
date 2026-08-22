@@ -3,13 +3,13 @@
 ---
 
 <div class="zig-playground-container">
-  <div class="playground-toolbar">
-    <div class="toolbar-left">
-      <div class="preset-wrapper">
-        <label for="preset-select" class="toolbar-label">
+  <div class="playground-toolbar" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
+    <div class="toolbar-left" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
+      <div class="preset-wrapper" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
+        <label for="preset-select" class="toolbar-label" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
           <span class="label-icon">📂</span> 예제:
         </label>
-        <select id="preset-select" class="preset-dropdown">
+        <select id="preset-select" class="preset-dropdown" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
           <option value="hello">01. Hello World & 포맷팅 출력</option>
           <option value="memory">02. 메모리 할당자 (DebugAllocator 누수 탐지)</option>
           <option value="comptime">03. Comptime 제네릭스 (Generic Stack)</option>
@@ -18,19 +18,19 @@
           <option value="custom">✏️ 사용자 직접 작성 (Custom Code)</option>
         </select>
       </div>
-      <span class="engine-badge">⚡ Pure WebAssembly</span>
+      <span class="engine-badge" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">⚡ Pure WebAssembly</span>
     </div>
 
-    <div class="toolbar-right">
-      <button id="reset-btn" class="btn btn-secondary" title="현재 예제로 되돌리기">
+    <div class="toolbar-right" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
+      <button id="reset-btn" class="btn btn-secondary" title="현재 예제로 되돌리기" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
         초기화
       </button>
-      <button id="copy-btn" class="btn btn-secondary" title="코드 클립보드 복사">
+      <button id="copy-btn" class="btn btn-secondary" title="코드 클립보드 복사" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         복사
       </button>
-      <button id="run-btn" class="btn btn-primary">
+      <button id="run-btn" class="btn btn-primary" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         실행 (Run in WASM)
       </button>
@@ -87,17 +87,26 @@
 </div>
 
 <style>
+  /* Global reset for every single element inside playground */
+  .zig-playground-container,
+  .zig-playground-container *,
+  .zig-playground-container :where(*),
+  .zig-playground-container :where(* + *) {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
   .zig-playground-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 1.5rem 0 2rem 0;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
-    font-family: var(--sl-font, sans-serif);
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    background: #0d1117 !important;
+    border: 1px solid #30363d !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    margin: 1.5rem 0 2rem 0 !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4) !important;
+    font-family: var(--sl-font, sans-serif) !important;
   }
 
   .playground-toolbar {
@@ -105,30 +114,35 @@
     flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding: 0.6rem 1.2rem !important;
+    padding: 0 1.2rem !important;
     background: #161b22 !important;
     border-bottom: 1px solid #30363d !important;
-    min-height: 56px !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    max-height: 54px !important;
     box-sizing: border-box !important;
     flex-wrap: nowrap !important;
     gap: 1rem !important;
   }
 
   .toolbar-left, .toolbar-right {
-    display: flex !important;
+    display: inline-flex !important;
     flex-direction: row !important;
     align-items: center !important;
+    height: 100% !important;
     gap: 0.65rem !important;
     margin: 0 !important;
     padding: 0 !important;
+    flex-shrink: 0 !important;
   }
 
   .preset-wrapper {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 0.5rem !important;
-    margin: 0 !important;
     height: 36px !important;
+    gap: 0.45rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
   .toolbar-label {
@@ -168,15 +182,15 @@
   }
 
   .engine-badge {
-    height: 28px !important;
-    line-height: 26px !important;
+    height: 26px !important;
+    line-height: 24px !important;
     box-sizing: border-box !important;
     margin: 0 !important;
-    padding: 0 0.65rem !important;
+    padding: 0 0.6rem !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 0.75rem !important;
+    font-size: 0.72rem !important;
     font-weight: 600 !important;
     background: rgba(247, 164, 29, 0.12) !important;
     color: #f7a41d !important;
@@ -241,267 +255,267 @@
   }
 
   .playground-workspace {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    min-height: 560px;
-    background: #0d1117;
+    display: grid !important;
+    grid-template-columns: 1.15fr 0.85fr !important;
+    min-height: 560px !important;
+    background: #0d1117 !important;
   }
 
   @media (max-width: 1024px) {
     .playground-workspace {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
     }
   }
 
   .pane-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.45rem 1rem;
-    background: #161b22;
-    border-bottom: 1px solid #30363d;
-    height: 38px;
-    box-sizing: border-box;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 1rem !important;
+    background: #161b22 !important;
+    border-bottom: 1px solid #30363d !important;
+    height: 38px !important;
+    box-sizing: border-box !important;
   }
 
   .pane-tab {
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #f0f6fc;
-    font-family: "JetBrains Mono", monospace;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    color: #f0f6fc !important;
+    font-family: "JetBrains Mono", monospace !important;
   }
 
   .pane-meta {
-    display: flex;
-    gap: 0.4rem;
+    display: flex !important;
+    gap: 0.4rem !important;
   }
 
   .target-tag, .version-tag {
-    font-size: 0.72rem;
-    padding: 0.15rem 0.45rem;
-    border-radius: 4px;
-    font-weight: 600;
-    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem !important;
+    padding: 0.15rem 0.45rem !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    font-family: "JetBrains Mono", monospace !important;
   }
 
   .target-tag {
-    background: #21262d;
-    color: #8b949e;
+    background: #21262d !important;
+    color: #8b949e !important;
   }
 
   .version-tag {
-    background: rgba(56, 139, 253, 0.15);
-    color: #58a6ff;
+    background: rgba(56, 139, 253, 0.15) !important;
+    color: #58a6ff !important;
   }
 
   .editor-pane {
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid #30363d;
-    background: #0d1117;
+    display: flex !important;
+    flex-direction: column !important;
+    border-right: 1px solid #30363d !important;
+    background: #0d1117 !important;
   }
 
   .editor-wrapper {
-    display: flex;
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    height: 522px;
+    display: flex !important;
+    flex: 1 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    height: 522px !important;
   }
 
   .line-numbers {
-    padding: 1rem 0.6rem;
-    text-align: right;
-    color: #484f58;
-    background: #090d13;
-    user-select: none;
-    font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
-    font-size: 13.5px;
-    line-height: 1.6;
-    min-width: 3.2rem;
-    border-right: 1px solid #21262d;
-    overflow: hidden;
-    box-sizing: border-box;
+    padding: 1rem 0.6rem !important;
+    text-align: right !important;
+    color: #484f58 !important;
+    background: #090d13 !important;
+    user-select: none !important;
+    font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    min-width: 3.2rem !important;
+    border-right: 1px solid #21262d !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .line-numbers div {
-    height: 21.6px;
+    height: 21.6px !important;
   }
 
   .code-container {
-    flex: 1;
-    position: relative;
-    height: 100%;
-    overflow: hidden;
+    flex: 1 !important;
+    position: relative !important;
+    height: 100% !important;
+    overflow: hidden !important;
   }
 
   .highlighting-layer, .code-editor {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 1rem 1.2rem;
-    font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
-    font-size: 13.5px;
-    line-height: 1.6;
-    tab-size: 4;
-    box-sizing: border-box;
-    white-space: pre;
-    overflow: auto;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 1rem 1.2rem !important;
+    font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    tab-size: 4 !important;
+    box-sizing: border-box !important;
+    white-space: pre !important;
+    overflow: auto !important;
   }
 
   .highlighting-layer {
-    pointer-events: none;
-    z-index: 1;
-    background: transparent;
-    border: none;
+    pointer-events: none !important;
+    z-index: 1 !important;
+    background: transparent !important;
+    border: none !important;
   }
 
   .highlighting-layer code {
-    font-family: inherit;
-    font-size: inherit;
+    font-family: inherit !important;
+    font-size: inherit !important;
     background: transparent !important;
     padding: 0 !important;
   }
 
   .code-editor {
-    z-index: 2;
-    color: transparent;
-    background: transparent;
-    caret-color: #f7a41d;
-    border: none;
-    outline: none;
-    resize: none;
+    z-index: 2 !important;
+    color: transparent !important;
+    background: transparent !important;
+    caret-color: #f7a41d !important;
+    border: none !important;
+    outline: none !important;
+    resize: none !important;
   }
 
-  /* Syntax Highlighting Colors (Modern Dark Theme) */
-  :global(.hl-keyword) { color: #ff7b72; font-weight: 600; }
-  :global(.hl-builtin) { color: #d2a8ff; font-weight: 600; }
-  :global(.hl-type) { color: #79c0ff; }
-  :global(.hl-string) { color: #a5d6ff; }
-  :global(.hl-number) { color: #79c0ff; }
-  :global(.hl-comment) { color: #8b949e; font-style: italic; }
-  :global(.hl-fn) { color: #d2a8ff; }
-  :global(.hl-op) { color: #f0f6fc; }
+  /* Syntax Highlighting Colors */
+  :global(.hl-keyword) { color: #ff7b72 !important; font-weight: 600 !important; }
+  :global(.hl-builtin) { color: #d2a8ff !important; font-weight: 600 !important; }
+  :global(.hl-type) { color: #79c0ff !important; }
+  :global(.hl-string) { color: #a5d6ff !important; }
+  :global(.hl-number) { color: #79c0ff !important; }
+  :global(.hl-comment) { color: #8b949e !important; font-style: italic !important; }
+  :global(.hl-fn) { color: #d2a8ff !important; }
+  :global(.hl-op) { color: #f0f6fc !important; }
 
   .terminal-pane {
-    display: flex;
-    flex-direction: column;
-    background: #030407;
+    display: flex !important;
+    flex-direction: column !important;
+    background: #030407 !important;
   }
 
   .terminal-header {
-    background: #090d13;
-    border-bottom: 1px solid #21262d;
+    background: #090d13 !important;
+    border-bottom: 1px solid #21262d !important;
   }
 
   .traffic-lights {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
   }
 
   .dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
+    width: 9px !important;
+    height: 9px !important;
+    border-radius: 50% !important;
   }
 
-  .dot.red { background: #ff5f56; }
-  .dot.yellow { background: #ffbd2e; }
-  .dot.green { background: #27c93f; }
+  .dot.red { background: #ff5f56 !important; }
+  .dot.yellow { background: #ffbd2e !important; }
+  .dot.green { background: #27c93f !important; }
 
   .terminal-title {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #8b949e;
-    margin-left: 0.4rem;
-    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    color: #8b949e !important;
+    margin-left: 0.4rem !important;
+    font-family: "JetBrains Mono", monospace !important;
   }
 
   .terminal-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.55rem !important;
   }
 
   .status-indicator {
-    font-size: 0.7rem;
-    font-weight: 700;
-    padding: 0.12rem 0.4rem;
-    border-radius: 4px;
-    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    padding: 0.12rem 0.4rem !important;
+    border-radius: 4px !important;
+    font-family: "JetBrains Mono", monospace !important;
   }
 
   .status-indicator.ready {
-    background: rgba(35, 134, 54, 0.2);
-    color: #3fb950;
+    background: rgba(35, 134, 54, 0.2) !important;
+    color: #3fb950 !important;
   }
 
   .status-indicator.running {
-    background: rgba(210, 153, 34, 0.2);
-    color: #d29922;
+    background: rgba(210, 153, 34, 0.2) !important;
+    color: #d29922 !important;
   }
 
   .status-indicator.error {
-    background: rgba(248, 81, 73, 0.2);
-    color: #f85149;
+    background: rgba(248, 81, 73, 0.2) !important;
+    color: #f85149 !important;
   }
 
   .exec-time-badge {
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: #3fb950;
-    background: rgba(35, 134, 54, 0.12);
-    padding: 0.12rem 0.45rem;
-    border-radius: 4px;
-    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    color: #3fb950 !important;
+    background: rgba(35, 134, 54, 0.12) !important;
+    padding: 0.12rem 0.45rem !important;
+    border-radius: 4px !important;
+    font-family: "JetBrains Mono", monospace !important;
   }
 
   .btn-clear {
-    background: transparent;
-    border: 1px solid #30363d;
-    color: #8b949e;
-    padding: 0.15rem 0.45rem;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    cursor: pointer;
+    background: transparent !important;
+    border: 1px solid #30363d !important;
+    color: #8b949e !important;
+    padding: 0.15rem 0.45rem !important;
+    border-radius: 4px !important;
+    font-size: 0.72rem !important;
+    cursor: pointer !important;
   }
 
   .btn-clear:hover {
-    color: #f0f6fc;
-    border-color: #8b949e;
+    color: #f0f6fc !important;
+    border-color: #8b949e !important;
   }
 
   .terminal-output {
-    flex: 1;
-    padding: 1.2rem;
-    overflow-y: auto;
-    font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #c9d1d9;
-    height: 522px;
-    box-sizing: border-box;
+    flex: 1 !important;
+    padding: 1.2rem !important;
+    overflow-y: auto !important;
+    font-family: "JetBrains Mono", Menlo, Consolas, Monaco, monospace !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    color: #c9d1d9 !important;
+    height: 522px !important;
+    box-sizing: border-box !important;
   }
 
-  .term-dim { color: #57606a; }
-  .term-line { margin: 0.25rem 0; word-break: break-all; }
-  .term-stdout { color: #e6edf3; }
-  .term-success { color: #3fb950; font-weight: 600; }
-  .term-err { color: #f85149; font-weight: 500; }
-  .term-info { color: #58a6ff; }
+  .term-dim { color: #57606a !important; }
+  .term-line { margin: 0.25rem 0 !important; word-break: break-all !important; }
+  .term-stdout { color: #e6edf3 !important; }
+  .term-success { color: #3fb950 !important; font-weight: 600 !important; }
+  .term-err { color: #f85149 !important; font-weight: 500 !important; }
+  .term-info { color: #58a6ff !important; }
   .term-diagnostic {
-    background: rgba(248, 81, 73, 0.08);
-    border-left: 3px solid #f85149;
-    padding: 0.4rem 0.6rem;
-    margin: 0.4rem 0;
-    font-family: inherit;
+    background: rgba(248, 81, 73, 0.08) !important;
+    border-left: 3px solid #f85149 !important;
+    padding: 0.4rem 0.6rem !important;
+    margin: 0.4rem 0 !important;
+    font-family: inherit !important;
   }
 </style>
 
@@ -667,25 +681,7 @@ pub fn main() !void {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
 
-    // Tokenizer regex
-    const tokens = [
-      // Comments
-      { regex: /(\/\/[^\n]*)/g, tag: 'hl-comment' },
-      // Strings & chars
-      { regex: /("([^"\\]|\\.)*"|'([^'\\]|\\.)*')/g, tag: 'hl-string' },
-      // Builtins (@import, @as, @intCast, etc)
-      { regex: /\b(@[a-zA-Z0-9_]+)\b/g, tag: 'hl-builtin' },
-      // Keywords
-      { regex: /\b(pub|fn|const|var|struct|enum|union|comptime|try|catch|defer|errdefer|switch|while|for|if|else|return|test|export|extern|inline|break|continue|unreachable|undefined|null|true|false)\b/g, tag: 'hl-keyword' },
-      // Types
-      { regex: /\b(u8|u16|u32|u64|u128|usize|i8|i16|i32|i64|i128|isize|f16|f32|f64|f80|f128|bool|void|noreturn|type|anyerror|anytype|c_int|c_uint|c_char)\b/g, tag: 'hl-type' },
-      // Numbers
-      { regex: /\b(0x[0-9a-fA-F_]+|0b[01_]+|0o[0-7_]+|[0-9_]+(\.[0-9_]+)?)\b/g, tag: 'hl-number' },
-    ];
-
     let highlighted = htmlEscaped;
-
-    // Use a token map to avoid double-replacing inside tags
     const placeholderMap: Map<string, string> = new Map();
     let pIdx = 0;
 
@@ -732,11 +728,10 @@ pub fn main() !void {
     const stdout: string[] = [];
 
     // 1. Static Lexical & Syntax Diagnostics
-    // 1.1 Check braces matching
     let braceCount = 0;
     let parenCount = 0;
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].replace(/\/\/.*/, ""); // strip comment
+      const line = lines[i].replace(/\/\/.*/, "");
       for (const ch of line) {
         if (ch === '{') braceCount++;
         if (ch === '}') braceCount--;
@@ -752,14 +747,12 @@ pub fn main() !void {
       errors.push(`src/main.zig:${lines.length}:1: error: expected closing ')', unclosed parenthesis`);
     }
 
-    // 1.2 Check main function
     const hasMain = code.includes("pub fn main") || code.includes("fn main");
     const hasTest = code.includes("test ");
     if (!hasMain && !hasTest) {
       errors.push("src/main.zig:1:1: error: root source file has no 'main' function or 'test' declarations");
     }
 
-    // 1.3 Check missing semicolons on common statements
     for (let i = 0; i < lines.length; i++) {
       const trimmed = lines[i].trim();
       const lineNum = i + 1;
@@ -776,12 +769,10 @@ pub fn main() !void {
         errors.push(`src/main.zig:${lineNum}:${trimmed.length + 1}: error: expected ';' after statement`);
       }
 
-      // Type mismatch detection (e.g. const x: u32 = "hello";)
       if (/const\s+\w+\s*:\s*(u8|u16|u32|u64|i32|i64|usize)\s*=\s*"[^"]*"/.test(trimmed)) {
         errors.push(`src/main.zig:${lineNum}: error: expected type 'integer', found '[]const u8' (string literal)`);
       }
 
-      // Check std import
       if (trimmed.includes("std.debug.print") && !code.includes("@import(\"std\")")) {
         errors.push(`src/main.zig:${lineNum}:5: error: use of undeclared identifier 'std'`);
       }
@@ -798,13 +789,11 @@ pub fn main() !void {
     }
 
     // 2. Dynamic Evaluation for Valid Code
-    // Evaluate standard variables and arithmetic
     const varMap: Map<string, any> = new Map();
 
     for (let i = 0; i < lines.length; i++) {
       const trimmed = lines[i].trim();
 
-      // Parse simple integer variable declaration (e.g. const x: i32 = 42; or const x = 42;)
       const varDecl = trimmed.match(/^(?:const|var)\s+(\w+)(?:\s*:\s*[\w\[\]]+)?\s*=\s*(.+);$/);
       if (varDecl) {
         const name = varDecl[1];
@@ -816,7 +805,6 @@ pub fn main() !void {
         }
       }
 
-      // Parse std.debug.print
       const printMatch = trimmed.match(/std\.debug\.print\("([^"\\]*(?:\\.[^"\\]*)*)"(?:\s*,\s*\.\{([^}]*)\})?\);/);
       if (printMatch) {
         let fmt = printMatch[1].replace(/\\n/g, "").replace(/\\t/g, "  ");
@@ -828,16 +816,11 @@ pub fn main() !void {
 
           for (const raw of rawArgs) {
             if (raw === "") continue;
-            // String literal
             if (/^"([^"]*)"$/.test(raw)) {
               evaluatedArgs.push(raw.slice(1, -1));
-            }
-            // Variable name
-            else if (varMap.has(raw)) {
+            } else if (varMap.has(raw)) {
               evaluatedArgs.push(String(varMap.get(raw)));
-            }
-            // Math expression like x + y
-            else if (/^(\w+)\s*([\+\-\*\/])\s*(\w+)$/.test(raw)) {
+            } else if (/^(\w+)\s*([\+\-\*\/])\s*(\w+)$/.test(raw)) {
               const opMatch = raw.match(/^(\w+)\s*([\+\-\*\/])\s*(\w+)$/)!;
               const v1 = varMap.has(opMatch[1]) ? varMap.get(opMatch[1]) : parseFloat(opMatch[1]);
               const op = opMatch[2];
@@ -852,9 +835,7 @@ pub fn main() !void {
               } else {
                 evaluatedArgs.push(raw);
               }
-            }
-            // Direct number
-            else {
+            } else {
               evaluatedArgs.push(raw);
             }
           }
@@ -866,7 +847,6 @@ pub fn main() !void {
       }
     }
 
-    // Preset Fallbacks if loop or struct simulation
     if (stdout.length === 0) {
       if (code.includes("Zero-overhead")) {
         stdout.push("Hello, Zig WebAssembly World! ⚡");
@@ -926,15 +906,12 @@ pub fn main() !void {
       if (!editor || !highlightLayer || !lineNumbers) return;
       const text = editor.value;
 
-      // Update syntax highlight layer
       highlightLayer.innerHTML = highlightZig(text);
 
-      // Update line numbers
       const count = text.split("\n").length;
       lineNumbers.innerHTML = Array.from({ length: count }, (_, i) => `<div>${i + 1}</div>`).join("");
     }
 
-    // Scroll sync between editor, highlight layer, and line numbers
     editor.addEventListener("scroll", () => {
       if (highlightLayer && highlightLayer.parentElement) {
         highlightLayer.parentElement.scrollTop = editor.scrollTop;
@@ -953,7 +930,6 @@ pub fn main() !void {
       if (lineNumbers) lineNumbers.scrollTop = 0;
     }
 
-    // Load initial hello preset
     loadPreset("hello");
 
     editor.addEventListener("input", () => {
@@ -1017,7 +993,6 @@ pub fn main() !void {
         if (execTime) execTime.innerText = `${result.timeMs}ms`;
 
         if (!result.success) {
-          // Compilation failed!
           if (execStatus) {
             execStatus.className = "status-indicator error";
             execStatus.innerText = "COMPILATION ERROR";
@@ -1030,7 +1005,6 @@ pub fn main() !void {
           }
           termOutput.innerHTML = errHtml;
         } else {
-          // Success!
           if (execStatus) {
             execStatus.className = "status-indicator ready";
             execStatus.innerText = "FINISHED";
