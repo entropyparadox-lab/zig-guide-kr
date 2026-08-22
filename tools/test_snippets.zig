@@ -2,8 +2,7 @@ const std = @import("std");
 
 pub fn main() !void {
     const allocator = std.heap.page_allocator;
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Running Zig Guide KR Code Snippet Validator (Native Zig)\n", .{});
+    std.debug.print("Running Zig Guide KR Code Snippet Validator (Native Zig)\n", .{});
 
     var total_snippets: usize = 0;
     var passed_snippets: usize = 0;
@@ -59,17 +58,17 @@ pub fn main() !void {
 
             if (try testSnippet(allocator, code, rel_path, idx)) {
                 passed_snippets += 1;
-                try stdout.print("  [PASS] {s} (snippet #{d})\n", .{ rel_path, idx });
+                std.debug.print("  [PASS] {s} (snippet #{d})\n", .{ rel_path, idx });
             } else {
                 failed_snippets += 1;
-                try stdout.print("  [FAIL] {s} (snippet #{d})\n", .{ rel_path, idx });
+                std.debug.print("  [FAIL] {s} (snippet #{d})\n", .{ rel_path, idx });
             }
         }
     }
 
-    try stdout.print("\n==================================================\n", .{});
-    try stdout.print("Results: Total={d}, Passed={d}, Failed={d}\n", .{ total_snippets, passed_snippets, failed_snippets });
-    try stdout.print("==================================================\n", .{});
+    std.debug.print("\n==================================================\n", .{});
+    std.debug.print("Results: Total={d}, Passed={d}, Failed={d}\n", .{ total_snippets, passed_snippets, failed_snippets });
+    std.debug.print("==================================================\n", .{});
 
     if (failed_snippets > 0) {
         std.process.exit(1);

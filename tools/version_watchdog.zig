@@ -3,28 +3,21 @@ const std = @import("std");
 pub fn main() !void {
     const allocator = std.heap.page_allocator;
 
-    // 1. Fetch https://ziglang.org/download/index.json via std.http.Client
-    var client = std.http.Client{ .allocator = allocator };
-    defer client.deinit();
+    // Fetch https://ziglang.org/download/index.json via curl child process (robust across all Zig std changes)
+    const argv = &[_][]const u8{ "curl", "-sSL", "https://ziglang.org/download/index.json" };
+    var child = std.process.Child.init(argv, allocator);
+    child.stdout_behavior = .Pipe;
+    child.stderr_behavior = .Ignore;
 
-    var body = std.ArrayList(u8).init(allocator);
-    defer body.deinit();
+    try child.spawn();
 
-    const res = try client.fetch(.{
-        .location = .{ .url = "https://ziglang.org/download/index.json" },
-        .response_storage = .{ .dynamic = &body },
-        .headers = .{
-            .user_agent = .{ .override = "ZigGuideKR-NativeWatcher/1.0" },
-        },
-    });
+    const body = try child.stdout.?.readToEndAlloc(allocator, 10 * 1024 * 1024);
+    defer allocator.free(body);
 
-    if (res.status != .ok) {
-        std.debug.print("{{\"error\": \"HTTP status {d}\"}}\n", .{@intFromEnum(res.status)});
-        return;
-    }
+    _ = try child.wait();
 
-    // 2. Parse JSON
-    const parsed = try std.json.parseFromSlice(std.json.Value, allocator, body.items, .{});
+    // Parse JSON
+    const parsed = try std.json.parseFromSlice(std.json.Value, allocator, body, .{});
     defer parsed.deinit();
 
     if (parsed.value != .object) {
@@ -47,7 +40,7 @@ pub fn main() !void {
         return;
     };
 
-    // 3. Read tracked_versions.json
+    // Read tracked_versions.json
     const tracked_path = "tracked_versions.json";
     var tracked_file = std.fs.cwd().openFile(tracked_path, .{}) catch null;
 
@@ -67,7 +60,7 @@ pub fn main() !void {
     const tracked_parsed = try std.json.parseFromSlice(std.json.Value, allocator, tracked_content, .{});
     defer tracked_parsed.deinit();
 
-    var known_latest: []const u8 = "0.13.0";
+    var known_latest: []const u8 = "0.16.0";
     if (tracked_parsed.value == .object) {
         if (tracked_parsed.value.object.get("latest_release")) |v| {
             if (v == .string) known_latest = v.string;

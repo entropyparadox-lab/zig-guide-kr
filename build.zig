@@ -5,20 +5,26 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     // 1. Version Watchdog 바이너리
-    const watchdog_exe = b.addExecutable(.{
-        .name = "version-watchdog",
+    const watchdog_mod = b.createModule(.{
         .root_source_file = b.path("tools/version_watchdog.zig"),
         .target = target,
         .optimize = optimize,
     });
+    const watchdog_exe = b.addExecutable(.{
+        .name = "version-watchdog",
+        .root_module = watchdog_mod,
+    });
     b.installArtifact(watchdog_exe);
 
     // 2. Test Snippets 검증기 바이너리
-    const test_snippets_exe = b.addExecutable(.{
-        .name = "test-snippets",
+    const test_snippets_mod = b.createModule(.{
         .root_source_file = b.path("tools/test_snippets.zig"),
         .target = target,
         .optimize = optimize,
+    });
+    const test_snippets_exe = b.addExecutable(.{
+        .name = "test-snippets",
+        .root_module = test_snippets_mod,
     });
     b.installArtifact(test_snippets_exe);
 

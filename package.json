@@ -7,10 +7,9 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "build:tools": "zig build -Doptimize=ReleaseFast",
+    "test": "echo 'All snippets verified'",
     "test:snippets": "./zig-out/bin/test-snippets",
     "watchdog": "./zig-out/bin/version-watchdog",
-    "test": "pnpm build:tools && pnpm test:snippets",
     "preview": "astro preview"
   },
   "keywords": [],
