@@ -30,7 +30,7 @@ my-app/
 
 ---
 
-## 2. `build.zig`의 기본 구조 (v0.13.0)
+## 2. `build.zig`의 기본 구조 (v0.16.0)
 
 `build.zig`:
 ```zig
@@ -105,7 +105,7 @@ Zig 0.11+부터 내장된 패키지 매니저는 ZON(Zig Object Notation) 형식
 .{
     .name = "my-app",
     .version = "0.1.0",
-    .minimum_zig_version = "0.13.0",
+    .minimum_zig_version = "0.16.0",
     .dependencies = .{
         // 외부 패키지 의존성 예시
     },

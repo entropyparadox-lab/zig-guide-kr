@@ -131,4 +131,4 @@ Total unique words: 5
 ## 💡 요약 및 가이드 완주
 
 - 이제 Zig의 환경 설정, `build.zig`, 메모리 할당자, 에러 처리, Comptime, C FFI 및 실전 CLI까지 전 과정을 습득하셨습니다.
-- 더 깊은 언어 스펙과 세부 규칙은 **[공식 언어 레퍼런스 (v0.13.0)](/zig-guide-kr/docs/0.13.0/overview/)**에서 확인하세요!
+- 더 깊은 언어 스펙과 세부 규칙은 **[공식 언어 레퍼런스 (v0.16.0)](/zig-guide-kr/docs/0.16.0/overview/)**에서 확인하세요!

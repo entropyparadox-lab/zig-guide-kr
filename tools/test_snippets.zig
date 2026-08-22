@@ -104,7 +104,9 @@ fn testSnippet(allocator: std.mem.Allocator, code: []const u8, rel_path: []const
 
     const std_prefix = if (has_std) "" else "const std = @import(\"std\");\n";
 
-    if (has_main or has_test or has_build) {
+    const has_export = std.mem.indexOf(u8, code, "export fn") != null;
+
+    if (has_main or has_test or has_build or has_export) {
         try final_code.appendSlice(code);
     } else if (is_decl_only) {
         try final_code.appendSlice(std_prefix);
@@ -131,7 +133,9 @@ fn testSnippet(allocator: std.mem.Allocator, code: []const u8, rel_path: []const
     const tmp_path = try tmp_dir.dir.realpathAlloc(allocator, filename);
     defer allocator.free(tmp_path);
 
-    const argv = if (has_build)
+    const has_export = std.mem.indexOf(u8, code, "export fn") != null;
+
+    const argv = if (has_build or has_export)
         &[_][]const u8{ "zig", "build-obj", tmp_path, "-fno-emit-bin" }
     else
         &[_][]const u8{ "zig", "test", tmp_path };

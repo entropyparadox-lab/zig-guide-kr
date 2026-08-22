@@ -9,7 +9,7 @@ description: "Zig 컴파일러 설치부터 Hello World, 기본 빌드 및 테�
 
 ---
 
-## 1. Zig 설치하기 (v0.13.0)
+## 1. Zig 설치하기 (v0.16.0)
 
 Zig은 외부 의존성이 전혀 없는 단일 바이너리(Single Binary) 형태로 배포됩니다. 복잡한 환경 설정 없이 압축을 풀고 실행 경로(`PATH`)에 추가하기만 하면 즉시 사용할 수 있습니다.
 
@@ -18,14 +18,14 @@ Zig은 외부 의존성이 전혀 없는 단일 바이너리(Single Binary) 형�
 
 ```bash
 # Linux x86_64 예시
-curl -LO https://ziglang.org/download/0.13.0/zig-linux-x86_64-0.13.0.tar.xz
-tar -xf zig-linux-x86_64-0.13.0.tar.xz
+curl -LO https://ziglang.org/download/0.16.0/zig-linux-x86_64-0.16.0.tar.xz
+tar -xf zig-linux-x86_64-0.16.0.tar.xz
 mkdir -p ~/.local/bin
-ln -sf $(pwd)/zig-linux-x86_64-0.13.0/zig ~/.local/bin/zig
+ln -sf $(pwd)/zig-linux-x86_64-0.16.0/zig ~/.local/bin/zig
 
 # 버전 확인
 zig version
-# 0.13.0
+# 0.16.0
 ```
 
 ### macOS (Homebrew)

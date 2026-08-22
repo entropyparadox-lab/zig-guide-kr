@@ -30,5 +30,5 @@ description: "Zig 한국어 문서 및 실전 가이드 프로젝트의 방향�
 
 - Zig을 처음 접하거나 실무 프로젝트에 적용하고 싶다면 **[Zig 실전 핸드북](/zig-guide-kr/guides/01-getting-started/)**을 먼저 읽어보세요.
 - C/C++, Rust, Go 등 기존 언어와의 차이가 궁금하다면 **[타 언어 개발자를 위한 Zig](/zig-guide-kr/from-other-languages/01-c-cpp/)**를 확인하세요.
-- 특정 문법이나 타입 시스템의 상세 스펙이 필요하다면 **[공식 언어 레퍼런스 (v0.13.0)](/zig-guide-kr/docs/0130/overview/)**를 확인하세요.
+- 특정 문법이나 타입 시스템의 상세 스펙이 필요하다면 **[공식 언어 레퍼런스 (v0.16.0)](/zig-guide-kr/docs/0160/overview/)**를 확인하세요.
 - 용어 번역 기준이 궁금하다면 **[개발자 표준 용어집 (Glossary)](/zig-guide-kr/glossary/)**을 참고하세요.
