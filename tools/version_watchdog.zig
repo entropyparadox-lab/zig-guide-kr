@@ -1,10 +1,7 @@
 const std = @import("std");
 
 pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
+    const allocator = std.heap.page_allocator;
     const stdout = std.io.getStdOut().writer();
 
     // 1. Fetch https://ziglang.org/download/index.json via std.http.Client

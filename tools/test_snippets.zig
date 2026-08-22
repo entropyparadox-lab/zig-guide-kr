@@ -1,10 +1,7 @@
 const std = @import("std");
 
 pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
-
+    const allocator = std.heap.page_allocator;
     const stdout = std.io.getStdOut().writer();
     try stdout.print("Running Zig Guide KR Code Snippet Validator (Native Zig)\n", .{});
 
@@ -89,6 +86,7 @@ fn testSnippet(allocator: std.mem.Allocator, code: []const u8, rel_path: []const
     const has_main = std.mem.indexOf(u8, code, "pub fn main") != null or std.mem.indexOf(u8, code, "fn main") != null;
     const has_build = std.mem.indexOf(u8, code, "pub fn build") != null;
     const has_test = std.mem.indexOf(u8, code, "test ") != null or std.mem.indexOf(u8, code, "test \"") != null;
+    const has_export = std.mem.indexOf(u8, code, "export fn") != null;
 
     const is_decl_only = (std.mem.indexOf(u8, code, "fn ") != null or
         std.mem.indexOf(u8, code, "const ") != null or
@@ -103,8 +101,6 @@ fn testSnippet(allocator: std.mem.Allocator, code: []const u8, rel_path: []const
     defer final_code.deinit();
 
     const std_prefix = if (has_std) "" else "const std = @import(\"std\");\n";
-
-    const has_export = std.mem.indexOf(u8, code, "export fn") != null;
 
     if (has_main or has_test or has_build or has_export) {
         try final_code.appendSlice(code);
@@ -132,8 +128,6 @@ fn testSnippet(allocator: std.mem.Allocator, code: []const u8, rel_path: []const
 
     const tmp_path = try tmp_dir.dir.realpathAlloc(allocator, filename);
     defer allocator.free(tmp_path);
-
-    const has_export = std.mem.indexOf(u8, code, "export fn") != null;
 
     const argv = if (has_build or has_export)
         &[_][]const u8{ "zig", "build-obj", tmp_path, "-fno-emit-bin" }

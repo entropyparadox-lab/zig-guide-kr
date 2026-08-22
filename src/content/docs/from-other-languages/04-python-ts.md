@@ -55,7 +55,7 @@ Python의 `ctypes` 또는 Node.js의 `ffi-napi`에서 직접 호출할 수 있�
 const std = @import("std");
 
 // Python/Node에서 호출 가능한 C ABI 함수
-export fn fast_fibonacci(n: u32) callconv(.C) u64 {
+export fn fast_fibonacci(n: u32) callconv(.c) u64 {
     if (n <= 1) return n;
     var a: u64 = 0;
     var b: u64 = 1;

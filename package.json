@@ -7,9 +7,10 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "test:snippets": "zig run tools/test_snippets.zig",
-    "watchdog": "zig run tools/version_watchdog.zig",
-    "test": "pnpm test:snippets",
+    "build:tools": "zig build -Doptimize=ReleaseFast",
+    "test:snippets": "./zig-out/bin/test-snippets",
+    "watchdog": "./zig-out/bin/version-watchdog",
+    "test": "pnpm build:tools && pnpm test:snippets",
     "preview": "astro preview"
   },
   "keywords": [],

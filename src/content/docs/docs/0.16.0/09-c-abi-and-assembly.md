@@ -12,7 +12,7 @@ description: "Zig 0.16.0 공식 레퍼런스 - extern fn, export, 호출 규약(
 C ABI와 호환되는 함수를 내보내려면 `export` 키워드와 `callconv(.C)`를 지정합니다:
 
 ```zig
-export fn zig_add(a: i32, b: i32) callconv(.C) i32 {
+export fn zig_add(a: i32, b: i32) callconv(.c) i32 {
     return a + b;
 }
 
