@@ -33,6 +33,13 @@ export default defineConfig({
           ],
         },
         {
+          label: '📢 릴리스 노트 & 마이그레이션',
+          badge: { text: '추천', variant: 'success' },
+          items: [
+            { autogenerate: { directory: 'releases' } }
+          ],
+        },
+        {
           label: '🚀 타 언어 사용자를 위한 Zig',
           badge: { text: 'New', variant: 'tip' },
           items: [
