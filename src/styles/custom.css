@@ -33,3 +33,17 @@ pre, code {
   font-weight: 600;
   border-radius: 4px;
 }
+
+/* Full-width layout breakout for Playground */
+body:has(.zig-playground-container) .sl-container,
+body:has(.zig-playground-container) .main-pane,
+body:has(.zig-playground-container) .content-panel,
+body:has(.zig-playground-container) .sl-markdown-content {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+body:has(.zig-playground-container) .content-panel {
+  padding: 1rem 2rem !important;
+}
+
