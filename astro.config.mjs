@@ -29,6 +29,7 @@ export default defineConfig({
           label: '시작하기',
           items: [
             { label: '프로젝트 소개 및 안내', slug: 'intro' },
+            { label: '⚡ WASM 플레이그라운드', slug: 'playground' },
             { label: '개발자 표준 용어집 (Glossary)', slug: 'glossary' },
           ],
         },

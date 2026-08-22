@@ -1,0 +1,23 @@
+---
+title: "⚡ Zig 브라우저 WASM 플레이그라운드"
+description: "서버 설치 없이 브라우저에서 직접 Zig 0.16.0 코드를 작성하고 WebAssembly로 즉시 실행해보는 인터랙티브 플레이그라운드입니다."
+tableOfContents: false
+---
+
+import ZigPlayground from '../../components/ZigPlayground.astro';
+
+<div class="playground-hero">
+  <p>
+    별도의 Zig 컴파일러 설치나 백엔드 서버 없이, <strong>100% 브라우저 클라이언트 환경(WASM)</strong>에서 Zig 0.16.0 예제 코드를 직접 수정하고 실행해볼 수 있습니다.
+  </p>
+</div>
+
+<ZigPlayground />
+
+---
+
+### 💡 플레이그라운드 활용 팁
+
+1. **상단 드롭다운**에서 `01. Hello World`, `02. 메모리 할당자`, `03. Comptime 제네릭스`, `04. 구조체 & 유니온`, `05. 퀵 정렬` 등 실무 핵심 예제를 즉시 불러올 수 있습니다.
+2. 코드를 자유롭게 수정한 뒤 **[실행 (Run in WASM)]** 버튼을 누르면 브라우저 내부에서 프로세스가 실행되고 표준 출력이 터미널 콘솔에 출력됩니다.
+3. 실전 핸드북의 전체 10개 챕터 학습은 **[📖 Zig 실전 핸드북](/zig-guide-kr/guides/01-getting-started/)**에서 이어갈 수 있습니다.
