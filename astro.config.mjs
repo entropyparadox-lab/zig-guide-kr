@@ -51,6 +51,13 @@ export default defineConfig({
             { autogenerate: { directory: 'docs/0.16.0' } }
           ],
         },
+        {
+          label: '⚡ Master (Nightly / 0.17.0-dev)',
+          badge: { text: 'Daily Sync', variant: 'note' },
+          items: [
+            { autogenerate: { directory: 'docs/master' } }
+          ],
+        },
       ],
     }),
   ],
