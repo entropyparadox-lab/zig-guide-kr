@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "test:snippets": "python3 scripts/test_snippets.py",
+    "test:snippets": "zig run tools/test_snippets.zig",
+    "watchdog": "zig run tools/version_watchdog.zig",
     "test": "pnpm test:snippets",
     "preview": "astro preview"
   },
