@@ -1,23 +1,26 @@
 const std = @import("std");
 
-pub fn main() !void {
-    const allocator = std.heap.page_allocator;
+pub fn main(init: std.process.Init) !void {
+    const gpa = init.gpa;
+    const io = init.io;
 
     // Fetch https://ziglang.org/download/index.json via curl child process (robust across all Zig std changes)
     const argv = &[_][]const u8{ "curl", "-sSL", "https://ziglang.org/download/index.json" };
-    var child = std.process.Child.init(argv, allocator);
-    child.stdout_behavior = .Pipe;
-    child.stderr_behavior = .Ignore;
+    const res = try std.process.run(gpa, io, .{
+        .argv = argv,
+    });
+    defer {
+        gpa.free(res.stdout);
+        gpa.free(res.stderr);
+    }
 
-    try child.spawn();
-
-    const body = try child.stdout.?.readToEndAlloc(allocator, 10 * 1024 * 1024);
-    defer allocator.free(body);
-
-    _ = try child.wait();
+    if (res.term != .exited or res.term.exited != 0) {
+        std.debug.print("{{\"error\": \"failed to run curl\"}}\n", .{});
+        return;
+    }
 
     // Parse JSON
-    const parsed = try std.json.parseFromSlice(std.json.Value, allocator, body, .{});
+    const parsed = try std.json.parseFromSlice(std.json.Value, gpa, res.stdout, .{});
     defer parsed.deinit();
 
     if (parsed.value != .object) {
@@ -42,22 +45,22 @@ pub fn main() !void {
 
     // Read tracked_versions.json
     const tracked_path = "tracked_versions.json";
-    var tracked_file = std.fs.cwd().openFile(tracked_path, .{}) catch null;
+    const cwd = std.Io.Dir.cwd();
 
-    if (tracked_file == null) {
-        // Initialize file
-        const new_file = try std.fs.cwd().createFile(tracked_path, .{});
-        defer new_file.close();
-        try new_file.writer().print("{{\n  \"latest_release\": \"{s}\"\n}}\n", .{latest});
-        std.debug.print("{{\"status\": \"initialized\", \"current_version\": \"{s}\"}}\n", .{latest});
-        return;
-    }
-    defer tracked_file.?.close();
+    const tracked_content = cwd.readFileAlloc(io, tracked_path, gpa, .limited(64 * 1024)) catch |err| switch (err) {
+        error.FileNotFound => {
+            // Initialize file
+            const init_json = try std.fmt.allocPrint(gpa, "{{\n  \"latest_release\": \"{s}\"\n}}\n", .{latest});
+            defer gpa.free(init_json);
+            try cwd.writeFile(io, .{ .sub_path = tracked_path, .data = init_json });
+            std.debug.print("{{\"status\": \"initialized\", \"current_version\": \"{s}\"}}\n", .{latest});
+            return;
+        },
+        else => |e| return e,
+    };
+    defer gpa.free(tracked_content);
 
-    const tracked_content = try tracked_file.?.readToEndAlloc(allocator, 64 * 1024);
-    defer allocator.free(tracked_content);
-
-    const tracked_parsed = try std.json.parseFromSlice(std.json.Value, allocator, tracked_content, .{});
+    const tracked_parsed = try std.json.parseFromSlice(std.json.Value, gpa, tracked_content, .{});
     defer tracked_parsed.deinit();
 
     var known_latest: []const u8 = "0.16.0";
