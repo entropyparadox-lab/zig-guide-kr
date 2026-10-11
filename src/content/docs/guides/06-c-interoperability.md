@@ -1,6 +1,6 @@
 ---
 title: "06. C 언어 상호운용성 (C FFI & C 컴파일러)"
-description: "C 헤더(@cImport) 직접 임포트, C 라이브러리 링크, Zig 컴파일러를 C/C++ 툴체인으로 활용하는 법을 설명합니다."
+description: "C 헤더 모듈 생성, C 라이브러리 링크, Zig 컴파일러를 C/C++ 툴체인으로 활용하는 법을 설명합니다."
 ---
 
 # 06. C 언어 상호운용성 (C FFI & C 컴파일러)
@@ -9,19 +9,15 @@ Zig은 역사상 C 언어와 가장 매끄럽게 상호운용되는 언어입니
 
 ---
 
-## 1. C 헤더 직접 임포트 (`@cImport`)
+## 1. C 헤더 모듈 생성 (`addTranslateC`)
 
-`@cImport`와 `@cInclude`를 사용하면 C 표준 라이브러리나 외부 C 헤더를 즉시 Zig 타입으로 변환하여 사용합니다.
+Zig 0.17에서는 `build.zig`의 `addTranslateC`로 C 헤더를 Zig 모듈로 변환하고, 소스 코드에서 그 모듈을 가져옵니다.
 
 ```zig
 const std = @import("std");
 
-// C 표준 헤더 임포트
-const c = @cImport({
-    @cInclude("stdlib.h");
-    @cInclude("stdio.h");
-    @cInclude("string.h");
-});
+// ignore: build.zig에서 addTranslateC로 생성한 모듈이 필요합니다.
+const c = @import("c");
 
 pub fn main() void {
     const message = "Hello from C FFI!\n";

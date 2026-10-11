@@ -1,6 +1,6 @@
 ---
 title: "C/C++ 개발자를 위한 Zig 가이드"
-description: "전처리기 매크로 대체, malloc 대신 Allocator, 미정의 동작(UB) 방어, @cImport와 zig cc 활용법."
+description: "전처리기 매크로 대체, malloc 대신 Allocator, 미정의 동작(UB) 방어, C 모듈과 zig cc 활용법."
 ---
 
 # C/C++ 개발자를 위한 Zig 가이드
@@ -75,17 +75,15 @@ test "explicit allocator allocation" {
 
 ---
 
-## 3. C 헤더 직접 임포트 (`@cImport`)
+## 3. 빌드 시스템에서 C 헤더 임포트
 
-별도의 바인딩 생성 도구 없이 C 헤더(`.h`)를 즉시 가져와 호출할 수 있습니다:
+Zig 0.17에서는 `build.zig`의 `addTranslateC`가 만든 모듈을 `@import`하여 C 헤더를 사용합니다:
 
 ```zig
 const std = @import("std");
 
-const c = @cImport({
-    @cInclude("stdlib.h");
-    @cInclude("string.h");
-});
+// ignore: build.zig에서 addTranslateC로 생성한 모듈이 필요합니다.
+const c = @import("c");
 
 test "c standard library interop" {
     const ptr = c.malloc(32);

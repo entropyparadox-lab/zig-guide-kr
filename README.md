@@ -1,10 +1,9 @@
 # Zig 한국어 문서 & Rails-style 실전 가이드 (Zig KR)
 
 [![Deploy to GitHub Pages](https://github.com/entropyparadox-lab/zig-guide-kr/actions/workflows/deploy.yml/badge.svg)](https://github.com/entropyparadox-lab/zig-guide-kr/actions/workflows/deploy.yml)
-[![Zig Version](https://img.shields.io/badge/Zig-0.13.0-orange.svg)](https://ziglang.org)
-[![Zig Version](https://img.shields.io/badge/Zig-0.16.0-orange.svg)](https://ziglang.org)
+[![Zig Version](https://img.shields.io/badge/Zig-0.17.0--dev.2085%2B5e36170b5-orange.svg)](https://ziglang.org/download/)
 
-더 견고하고, 최적화 가능하며, 유지보수하기 쉬운 시스템 프로그래밍 언어 **Zig**의 한국어 공식 언어 레퍼런스(v0.16.0) 완역본 및 실전 한국어 핸드북 & 가이드북입니다.
+더 견고하고, 최적화 가능하며, 유지보수하기 쉬운 시스템 프로그래밍 언어 **Zig**의 한국어 공식 언어 레퍼런스(v0.16.0) 완역본 및 실전 한국어 핸드북 & 가이드북입니다. 프로젝트의 빌드 및 스니펫 검증 도구는 안정 릴리스가 아닌 **Zig 0.17.0-dev.2085+5e36170b5** 개발 빌드와 호환됩니다.
 
 - 🌐 **공식 배포 사이트**: [https://entropyparadox-lab.github.io/zig-guide-kr/](https://entropyparadox-lab.github.io/zig-guide-kr/)
 
@@ -54,6 +53,8 @@
 ---
 
 ## 🛠 로컬 개발 및 테스트
+
+Zig 도구를 빌드하고 검증하려면 정확히 `0.17.0-dev.2085+5e36170b5` 버전을 사용하세요.
 
 ```bash
 # 1. 의존성 설치

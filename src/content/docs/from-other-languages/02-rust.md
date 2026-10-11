@@ -108,4 +108,4 @@ test "comptime generics vs rust struct generics" {
 ## 💡 Rust 개발자를 위한 팁
 
 1. **복잡한 수명 주기가 필요할 때**: Rust에서 라이프타임(`'a`)으로 고통받는 트리/그래프 구조나 임시 AST는 Zig의 `std.heap.ArenaAllocator`를 사용하면 단 1줄(`defer arena.deinit()`)로 깔끔하게 해결됩니다.
-2. **C 상호운용성**: `bindgen` 빌드 설정 없이 `@cImport`로 C 헤더를 즉시 불러올 수 있어 C 생태계 통합이 압도적으로 빠릅니다.
+2. **C 상호운용성**: `build.zig`의 `addTranslateC`로 C 헤더 모듈을 생성할 수 있어 별도 `bindgen` 도구 없이 C 생태계를 통합할 수 있습니다.

@@ -1,0 +1,11 @@
+.{
+    .name = .zig_guide_kr,
+    .version = "1.0.0",
+    .fingerprint = 0x74cc83186866a9e8,
+    .minimum_zig_version = "0.17.0",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "tools",
+    },
+}

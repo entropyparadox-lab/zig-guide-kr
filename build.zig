@@ -30,9 +30,6 @@ pub fn build(b: *std.Build) void {
 
     // zig build watchdog 실행 스텝
     const run_watchdog = b.addRunArtifact(watchdog_exe);
-    if (b.args) |args| {
-        run_watchdog.addArgs(args);
-    }
     const watchdog_step = b.step("watchdog", "Run the Zig upstream version watchdog");
     watchdog_step.dependOn(&run_watchdog.step);
 

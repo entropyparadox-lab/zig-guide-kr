@@ -96,8 +96,8 @@ fn testSnippet(gpa: std.mem.Allocator, io: std.Io, tmp_dir: std.Io.Dir, code: []
         std.mem.indexOf(u8, code, "union(") != null or
         std.mem.indexOf(u8, code, "enum {") != null) and
         (std.mem.indexOf(u8, code, "+=\n") == null and
-        std.mem.indexOf(u8, code, "while (") == null and
-        std.mem.indexOf(u8, code, "for (") == null);
+            std.mem.indexOf(u8, code, "while (") == null and
+            std.mem.indexOf(u8, code, "for (") == null);
 
     var final_code: std.ArrayList(u8) = .empty;
     defer final_code.deinit(gpa);
