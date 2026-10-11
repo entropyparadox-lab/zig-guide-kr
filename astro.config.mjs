@@ -8,7 +8,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Zig 한국어 가이드',
-      description: 'Zig 공식 언어 레퍼런스(v0.16.0) 완역 및 실전 한국어 핸드북 & 가이드',
+      description: 'Zig 공식 언어 레퍼런스(v0.17.0) 완역 및 실전 한국어 핸드북 & 가이드',
       logo: {
         alt: 'Zig KR Logo',
         src: './src/assets/zig-logo.svg',
@@ -54,13 +54,20 @@ export default defineConfig({
           ],
         },
         {
+          label: '📚 공식 언어 레퍼런스 (v0.17.0)',
+          badge: { text: '최신 안정판', variant: 'success' },
+          items: [
+            { autogenerate: { directory: 'docs/0.17.0' } }
+          ],
+        },
+        {
           label: '📚 공식 언어 레퍼런스 (v0.16.0)',
           items: [
             { autogenerate: { directory: 'docs/0.16.0' } }
           ],
         },
         {
-          label: '⚡ Master (Nightly / 0.17.0-dev)',
+          label: '⚡ Master (Nightly / 0.18.0-dev)',
           badge: { text: 'Daily Sync', variant: 'note' },
           items: [
             { autogenerate: { directory: 'docs/master' } }
