@@ -1,6 +1,6 @@
 ---
-title: "08. 메모리 관리 및 Allocator 레퍼런스 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - std.mem.Allocator 인터페이스, 메모리 정렬, GPA, Arena, PageAllocator 스펙."
+title: "08. 메모리 관리 및 Allocator 레퍼런스 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - std.mem.Allocator 인터페이스, SafeAllocator, SmpAllocator, Arena, BufferFirstAllocator 스펙."
 ---
 
 # 08. 메모리 관리 및 Allocator 레퍼런스

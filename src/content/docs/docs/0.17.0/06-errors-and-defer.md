@@ -1,6 +1,6 @@
 ---
-title: "06. 에러 처리 및 defer (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - error sets, error unions, try, catch, defer, errdefer."
+title: "06. 에러 처리 및 defer (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - error sets, error unions, try, catch, defer, errdefer."
 ---
 
 # 06. 에러 처리 및 defer

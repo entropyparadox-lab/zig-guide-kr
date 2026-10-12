@@ -1,27 +1,28 @@
 ---
 title: "03. 메모리 관리와 Allocator 실전 패턴"
-description: "Zig 0.16.0의 메모리 모델, 표준 Allocator 종류(DebugAllocator, SmpAllocator, Arena) 및 실무 패턴을 학습합니다."
+description: "Zig 0.17.0의 메모리 모델, 표준 Allocator 종류(SafeAllocator, SmpAllocator, Arena, BufferFirst) 및 실무 패턴을 학습합니다."
 ---
 
-# 03. 메모리 관리와 Allocator 실전 패턴
+# 03. 메모리 관리 및 Allocator 실무 패턴
 
-Zig에는 가비지 컬렉터(GC)나 숨겨진 런타임 할당(Hidden Allocations)이 존재하지 않습니다. 모든 힙 메모리 할당은 명시적으로 전달받은 `std.mem.Allocator` 인터페이스를 통해 이루어집니다.
+Zig은 가비지 컬렉터(GC)나 숨겨진 런타임 제어기가 존재하지 않으며, 모든 동적 메모리 할당을 호출자가 명시적으로 전달하는 **`std.mem.Allocator`** 인터페이스를 통해 수행합니다.
 
 ---
 
-## 1. Zig의 메모리 철학
+## 1. Zig 메모리 철학: No Hidden Allocation
 
-- **No Hidden Allocations**: 표준 라이브러리의 어떤 함수도 `Allocator`를 인자로 받지 않고는 힙 메모리를 몰래 할당하지 않습니다.
+- **No Implicit Allocation**: 표준 라이브러리의 어떤 함수도 호출자가 전달한 할당자 없이는 힙 메모리를 할당하지 않습니다.
 - **Explicit Lifecycle**: 할당된 메모리는 호출자가 명시적으로 해제해야 하며, `defer`를 활용해 결정론적(deterministic) 정리를 보장합니다.
 
 ---
 
-## 2. Zig 0.16.0 표준 Allocator의 종류와 용도
+## 2. Zig 0.17.0 표준 Allocator의 종류와 용도
 
 | 할당자 (Allocator) | 설명 | 주요 사용처 |
 |---|---|---|
-| `std.heap.DebugAllocator` | 안전한 디버그 힙 할당자. 메모리 누수 감지 및 use-after-free 감지 내장 | 개발 및 디버그 빌드 최상위 진입점 (`main.zig`) |
+| `init.gpa` / `std.heap.SafeAllocator` | 스레드 안전한 디버그/런타임 할당자. 카나리 보호, AllocFooter 및 누수 감지 내장 | 개발 및 디버그 빌드 최상위 진입점 (`main.zig`) |
 | `std.heap.SmpAllocator` / `smp_allocator` | 멀티스레드 환경에 최적화된 고성능 SMP 할당자 | 고성능 서버, 멀티스레딩 프로덕션 런타임 |
+| `std.heap.BufferFirstAllocator` | 스택 버퍼를 먼저 사용하고 용량 초과 시 힙으로 폴백하는 소형 버퍼 최적화 할당자 | 단기 버퍼 연산, 문자열 조작 |
 | `std.heap.ArenaAllocator` | 하위 할당자를 감싸서 여러 번 할당한 뒤, 마지막에 단 한 번의 호출로 일괄 해제(batch free) | 요청 단위 라이프사이클(HTTP 요청, AST 파서, CLI 실행) |
 | `std.heap.FixedBufferAllocator` | 고정 크기 스택/정적 버퍼 위에서 동작하는 할당자. 힙을 전혀 사용하지 않음 | 임베디드, 실시간 시스템, 임시 포맷팅 |
 | `std.heap.page_allocator` | OS 커널의 가상 메모리 페이지를 직접 요청하는 저수준 할당자 | 대용량 버퍼 할당, 커스텀 할당자 구현의 백엔드 |
@@ -29,33 +30,26 @@ Zig에는 가비지 컬렉터(GC)나 숨겨진 런타임 할당(Hidden Allocatio
 
 ---
 
-## 3. DebugAllocator 및 SmpAllocator 실전 사용 (v0.16.0)
+## 3. SafeAllocator 및 표준 Allocator 실전 사용 (v0.17.0)
 
 `main.zig`:
 ```zig
 const std = @import("std");
 
-pub fn main() !void {
-    // 1. 디버그 빌드 누수 탐지용 DebugAllocator
-    var dbg = std.heap.DebugAllocator(.{}){};
-    defer {
-        const deinit_status = dbg.deinit();
-        if (deinit_status == .leak) {
-            std.debug.print("WARNING: Memory leak detected!\n", .{});
-        }
-    }
-    const allocator = dbg.allocator();
+pub fn main(init: std.process.Init) !void {
+    // 1. std.process.Init에서 프로세스 할당자 취득 (v0.17.0)
+    const gpa = init.gpa;
 
-    // 2. 동적 배열(ArrayList) 사용
-    var list = std.ArrayList(u32).init(allocator);
-    defer list.deinit(); // 스코프 탈출 시 메모리 해제
+    // 2. 동적 배열(ArrayList) .empty 관용구 및 명시적 주입
+    var list: std.ArrayList(u32) = .empty;
+    defer list.deinit(gpa); // 스코프 탈출 시 메모리 해제
 
-    try list.append(10);
-    try list.append(20);
-    try list.append(30);
+    try list.append(gpa, 10);
+    try list.append(gpa, 20);
+    try list.append(gpa, 30);
 
-    for (list.items) |item| {
-        std.debug.print("Item: {d}\n", .{item});
+    for (list.items, 0..) |item, idx| {
+        std.debug.print("list[{d}] = {d}\n", .{ idx, item });
     }
 }
 ```

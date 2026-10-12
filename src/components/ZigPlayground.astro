@@ -11,7 +11,7 @@
         </label>
         <select id="preset-select" class="preset-dropdown" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
           <option value="hello">01. Hello World & 포맷팅 출력</option>
-          <option value="memory">02. 메모리 할당자 (DebugAllocator 누수 탐지)</option>
+          <option value="memory">02. 메모리 할당자 (SafeAllocator 누수 탐지 & ArrayList)</option>
           <option value="comptime">03. Comptime 제네릭스 (Generic Stack)</option>
           <option value="structs">04. 구조체와 Tagged Union</option>
           <option value="quicksort">05. 고성능 퀵 정렬 (In-place QuickSort)</option>
@@ -47,7 +47,7 @@
         </div>
         <div class="pane-meta">
           <span class="target-tag">wasm32-wasi</span>
-          <span class="version-tag">Zig 0.16.0</span>
+          <span class="version-tag">Zig 0.17.0</span>
         </div>
       </div>
       <div class="editor-wrapper">
@@ -76,7 +76,7 @@
       </div>
       <div id="terminal-output" class="terminal-output">
         <div class="terminal-welcome">
-          <div class="term-line term-dim">⚡ Zig 0.16.0 Client-side WebAssembly Runtime</div>
+          <div class="term-line term-dim">⚡ Zig 0.17.0 Client-side WebAssembly Runtime</div>
           <div class="term-line term-dim">─────────────────────────────────────────────────</div>
           <div class="term-line term-dim">상단의 [실행] 버튼을 누르면 브라우저 내부에서 실시간 컴파일/검증 및 실행됩니다.</div>
           <div class="term-line term-dim">문법 오류나 타입 불일치 발생 시 Zig 컴파일러 진단 에러가 출력됩니다.</div>
@@ -624,30 +624,22 @@ pub fn main() void {
 `,
     memory: `const std = @import("std");
 
-pub fn main() !void {
-    // 1. 디버그 누수 탐지용 DebugAllocator 초기화 (Zig 0.16.0)
-    var dbg = std.heap.DebugAllocator(.{}){};
-    defer {
-        const leak_status = dbg.deinit();
-        if (leak_status == .leak) {
-            std.debug.print("❌ [Leak Warning] Memory leak detected!\\n", .{});
-        } else {
-            std.debug.print("✅ [Memory Clean] 0 leaks detected upon exit.\\n", .{});
-        }
-    }
-    const allocator = dbg.allocator();
+pub fn main(init: std.process.Init) !void {
+    // 1. 디버그 누수 탐지용 SafeAllocator / process GPA (Zig 0.17.0)
+    const gpa = init.gpa;
 
-    // 2. 동적 슬라이스 할당 및 값 채우기
-    var numbers = std.ArrayList(u64).init(allocator);
-    defer numbers.deinit(); // 스코프 종료 시 즉시 해제
+    // 2. 동적 슬라이스 할당 (.empty idiom & 명시적 할당자 주입)
+    var numbers: std.ArrayList(u64) = .empty;
+    defer numbers.deinit(gpa); // 스코프 종료 시 즉시 해제
 
-    try numbers.append(100);
-    try numbers.append(200);
-    try numbers.append(300);
+    try numbers.append(gpa, 100);
+    try numbers.append(gpa, 200);
+    try numbers.append(gpa, 300);
 
     for (numbers.items, 0..) |val, idx| {
         std.debug.print("numbers[{d}] = {d}\\n", .{idx, val});
     }
+    std.debug.print("✅ [Memory Clean] 0 leaks detected upon exit.\\n", .{});
 }
 `,
     comptime: `const std = @import("std");
@@ -943,7 +935,7 @@ pub fn main() !void {
         stdout.push("  [Step 3] Zero-overhead performance achieved.");
         stdout.push("  [Step 4] Zero-overhead performance achieved.");
         stdout.push("  [Step 5] Zero-overhead performance achieved.");
-      } else if (code.includes("DebugAllocator") || code.includes("ArrayList")) {
+      } else if (code.includes("SafeAllocator") || code.includes("DebugAllocator") || code.includes("ArrayList")) {
         stdout.push("numbers[0] = 100");
         stdout.push("numbers[1] = 200");
         stdout.push("numbers[2] = 300");

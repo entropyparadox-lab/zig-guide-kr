@@ -1,6 +1,6 @@
 ---
-title: "10. 스레드 및 아토믹 연산 레퍼런스 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - std.Thread, std.atomic, Mutex, Condition Variable."
+title: "10. 스레드 및 아토믹 연산 레퍼런스 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - std.Thread, std.atomic, Mutex, Condition Variable."
 ---
 
 # 10. 스레드 및 아토믹 연산 레퍼런스

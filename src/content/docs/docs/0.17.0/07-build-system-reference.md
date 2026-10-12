@@ -1,26 +1,27 @@
 ---
-title: "07. 빌드 시스템 레퍼런스 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - std.Build API, CompileStep, 모듈 시스템."
+title: "07. 빌드 시스템 레퍼런스 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - std.Build API, addPassthruArgs, b.addTranslateC, 모듈 시스템."
 ---
 
 # 07. 빌드 시스템 레퍼런스
 
 ---
 
-## 1. `std.Build` 핵심 API (v0.16.0+)
+## 1. `std.Build` 핵심 API (v0.17.0+)
 
-Zig 0.16.0에서는 컴파일 대상이 모듈(`Module`) 기반으로 일원화되었습니다. 실행 파일이나 라이브러리는 `createModule`로 생성된 모듈을 전달받아 빌드됩니다:
+Zig 0.17.0에서는 컴파일 대상이 모듈(`Module`) 기반으로 일원화되었으며, `addPassthruArgs()` 및 Maker/Configurer 프로세스 분리가 정착되었습니다:
 
 - `b.createModule(...)`: 루트 소스 파일, 타깃, 최적화 레벨을 묶은 비공개 모듈 생성
 - `b.addExecutable(.{ .name = "...", .root_module = mod })`: 실행 파일 빌드 스텝 생성
 - `b.addStaticLibrary(.{ .name = "...", .root_module = mod })`: 정적 라이브러리(`.a`) 빌드 스텝 생성
 - `b.addSharedLibrary(.{ .name = "...", .root_module = mod })`: 동적 라이브러리(`.so`, `.dylib`, `.dll`) 빌드 스텝 생성
+- `b.addTranslateC(...)`: C 헤더를 Zig 모듈로 변환(구 `@cImport` 완전 대체)
 - `b.addModule(...)`: 타 패키지에서 임포트 가능한 공개 모듈 정의
 - `b.installArtifact(...)`: 빌드 결과물을 `zig-out` 디렉토리에 배치
 
 ---
 
-## 2. 표준 `build.zig` 템플릿 (v0.16.0)
+## 2. 표준 `build.zig` 템플릿 (v0.17.0)
 
 ```zig
 const std = @import("std");

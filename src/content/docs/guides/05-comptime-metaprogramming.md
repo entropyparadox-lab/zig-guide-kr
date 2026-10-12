@@ -52,10 +52,8 @@ fn Stack(comptime T: type) type {
     };
 }
 
-pub fn main() !void {
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer _ = gpa.deinit();
-    const allocator = gpa.allocator();
+pub fn main(init: std.process.Init) !void {
+    const allocator = init.arena.allocator();
 
     // Stack(i32) 타입 인스턴스화
     var int_stack = try Stack(i32).init(allocator, 10);

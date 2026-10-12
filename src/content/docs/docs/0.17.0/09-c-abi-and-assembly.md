@@ -1,6 +1,6 @@
 ---
-title: "09. C ABI 및 인라인 어셈블리 레퍼런스 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - extern fn, export, 호출 규약(callconv), 인라인 어셈블리 문법."
+title: "09. C ABI 및 인라인 어셈블리 레퍼런스 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - extern fn, export, b.addTranslateC, 호출 규약(callconv), 인라인 어셈블리 문법."
 ---
 
 # 09. C ABI 및 인라인 어셈블리 레퍼런스

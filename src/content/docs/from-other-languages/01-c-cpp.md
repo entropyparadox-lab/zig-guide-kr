@@ -53,7 +53,7 @@ test "comptime max vs c macro" {
 
 ## 2. 메모리 할당: 전역 `malloc` vs 명시적 `Allocator`
 
-C에서는 `malloc`이 실패해도 체크를 누락하기 쉽고 메모리 누수 감지가 어렵지만, Zig은 `std.heap.GeneralPurposeAllocator`로 누수를 자동 보고합니다.
+C에서는 `malloc`이 실패해도 체크를 누락하기 쉽고 메모리 누수 감지가 어렵지만, Zig은 `SafeAllocator` 및 `init.gpa`로 누수를 자동 보고합니다.
 
 ```zig
 const std = @import("std");

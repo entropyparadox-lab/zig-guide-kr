@@ -1,6 +1,6 @@
 ---
-title: "11. I/O 스트림 및 파일 시스템 레퍼런스 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - Reader/Writer 인터페이스, std.fs.File, 버퍼 I/O."
+title: "11. I/O 스트림 및 파일 시스템 레퍼런스 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - Reader/Writer 인터페이스, std.fs.File, 버퍼 I/O."
 ---
 
 # 11. I/O 스트림 및 파일 시스템 레퍼런스

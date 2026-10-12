@@ -1,6 +1,6 @@
 ---
-title: "05. Comptime 및 제네릭 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - comptime 키워드, 타입 반환 함수, @typeInfo 리플렉션."
+title: "05. Comptime 및 제네릭 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - comptime 키워드, 타입 반환 함수, @typeInfo 리플렉션."
 ---
 
 # 05. Comptime 및 제네릭

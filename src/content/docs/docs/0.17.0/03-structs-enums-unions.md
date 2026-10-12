@@ -1,6 +1,6 @@
 ---
-title: "03. 구조체, 열거형, 유니온 (v0.16.0)"
-description: "Zig 0.16.0 공식 레퍼런스 - struct, enum, union(enum)(Tagged Union) 및 메서드 정의."
+title: "03. 구조체, 열거형, 유니온 (v0.17.0)"
+description: "Zig 0.17.0 공식 레퍼런스 - struct, enum, union(enum)(Tagged Union) 및 메서드 정의."
 ---
 
 # 03. 구조체, 열거형, 유니온
