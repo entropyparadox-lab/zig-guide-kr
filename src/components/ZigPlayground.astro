@@ -717,7 +717,7 @@ const Shape = union(enum) {
 pub fn main() void {
     const c = Shape{ .Circle = 5.0 };
     const r = Shape{ .Rectangle = .{ .width = 10.0, .height = 4.0 } };
-    const p = Shape.Point;
+    const p: Shape = .Point;
 
     std.debug.print("Circle area (r=5.0): {d:.2}\\n", .{c.area()});
     std.debug.print("Rectangle area (10x4): {d:.2}\\n", .{r.area()});

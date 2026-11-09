@@ -6,6 +6,7 @@
 - Replace echo-only package tests and fail-open snippet fallback with real native checks and black-box regressions. Analyze main bodies and evaluate build graphs; execute test assertions.
 - Fix current-track examples exposed by strict checks (I/O, threading, JSON, reflection, alignment and build APIs).
 - Label the browser playground honestly as a JavaScript simulation, remove fabricated runtime/performance claims and reject edited unsupported input.
+- Fix the playground Point union value's inferred enum type; compile and run all six actual component presets with exact output assertions in package tests and PR CI.
 - Add a read-only PR quality gate. Existing main Pages auto-deployment remains unchanged.
 - Document actual Astro 7 dependencies and the validation scope in README and Korean patch guidance.
 
