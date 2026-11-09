@@ -1,5 +1,5 @@
 ---
-// Zig Interactive WASM Playground with Theme-adaptive Real-time Syntax Highlighting
+// Educational JavaScript simulation with regex-based syntax highlighting; no Zig compiler.
 ---
 
 <div class="zig-playground-container">
@@ -11,14 +11,14 @@
         </label>
         <select id="preset-select" class="preset-dropdown" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
           <option value="hello">01. Hello World & 포맷팅 출력</option>
-          <option value="memory">02. 메모리 할당자 (SafeAllocator 누수 탐지 & ArrayList)</option>
+          <option value="memory">02. 메모리 할당자 (ArrayList & 해제 예제)</option>
           <option value="comptime">03. Comptime 제네릭스 (Generic Stack)</option>
           <option value="structs">04. 구조체와 Tagged Union</option>
-          <option value="quicksort">05. 고성능 퀵 정렬 (In-place QuickSort)</option>
+          <option value="quicksort">05. 퀵 정렬 (In-place QuickSort)</option>
           <option value="custom">✏️ 사용자 직접 작성 (Custom Code)</option>
         </select>
       </div>
-      <span class="engine-badge" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">⚡ Pure WebAssembly</span>
+      <span class="engine-badge" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">JS 시뮬레이션</span>
     </div>
 
     <div class="toolbar-right" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
@@ -32,7 +32,7 @@
       </button>
       <button id="run-btn" class="btn btn-primary" style="margin: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        실행 (Run in WASM)
+        예시 출력 보기
       </button>
     </div>
   </div>
@@ -46,8 +46,8 @@
           <span>main.zig</span>
         </div>
         <div class="pane-meta">
-          <span class="target-tag">wasm32-wasi</span>
-          <span class="version-tag">Zig 0.17.0</span>
+          <span class="target-tag">교육용 예제</span>
+          <span class="version-tag">컴파일러 없음</span>
         </div>
       </div>
       <div class="editor-wrapper">
@@ -66,20 +66,20 @@
           <span class="dot red"></span>
           <span class="dot yellow"></span>
           <span class="dot green"></span>
-          <span class="terminal-title">WASM Output Console</span>
+          <span class="terminal-title">예시 출력</span>
         </div>
         <div class="terminal-actions">
           <span id="exec-status" class="status-indicator ready">READY</span>
-          <span id="exec-time" class="exec-time-badge">0ms</span>
+
           <button id="clear-term-btn" class="btn-clear" title="콘솔 지우기">지우기</button>
         </div>
       </div>
       <div id="terminal-output" class="terminal-output">
         <div class="terminal-welcome">
-          <div class="term-line term-dim">⚡ Zig 0.17.0 Client-side WebAssembly Runtime</div>
+          <div class="term-line term-info">JavaScript 시뮬레이션 · 정규식 기반 구문 강조</div>
           <div class="term-line term-dim">─────────────────────────────────────────────────</div>
-          <div class="term-line term-dim">상단의 [실행] 버튼을 누르면 브라우저 내부에서 실시간 컴파일/검증 및 실행됩니다.</div>
-          <div class="term-line term-dim">문법 오류나 타입 불일치 발생 시 Zig 컴파일러 진단 에러가 출력됩니다.</div>
+          <div class="term-line term-dim">[예시 출력 보기]는 원본 프리셋에 준비된 교육용 출력만 표시합니다.</div>
+          <div class="term-line term-dim">Zig/WASM 컴파일·실행, 문법·타입 검증, 성능 측정 및 메모리 누수 탐지는 하지 않습니다.</div>
         </div>
       </div>
     </div>
@@ -354,6 +354,33 @@
     }
   }
 
+  @media (max-width: 640px) {
+    .playground-toolbar {
+      flex-direction: column !important;
+      align-items: stretch !important;
+      height: auto !important;
+      max-height: none !important;
+      padding: 0.75rem !important;
+      gap: 0.75rem !important;
+    }
+    .toolbar-left, .toolbar-right {
+      flex-wrap: wrap !important;
+      height: auto !important;
+      min-width: 0 !important;
+    }
+    .preset-wrapper {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+    .preset-dropdown {
+      min-width: 0 !important;
+      width: 100% !important;
+    }
+    .pane-header {
+      padding: 0 0.5rem !important;
+    }
+  }
+
   .pane-header {
     display: flex !important;
     justify-content: space-between !important;
@@ -555,15 +582,6 @@
     color: #f85149 !important;
   }
 
-  .exec-time-badge {
-    font-size: 0.72rem !important;
-    font-weight: 600 !important;
-    color: #3fb950 !important;
-    background: rgba(35, 134, 54, 0.12) !important;
-    padding: 0.12rem 0.45rem !important;
-    border-radius: 4px !important;
-    font-family: "JetBrains Mono", monospace !important;
-  }
 
   .btn-clear {
     background: transparent !important;
@@ -613,19 +631,19 @@
     hello: `const std = @import("std");
 
 pub fn main() void {
-    const greeting = "Hello, Zig WebAssembly World! ⚡";
+    const greeting = "Hello, Zig!";
     std.debug.print("{s}\\n", .{greeting});
     
     const count: u32 = 5;
     for (0..count) |i| {
-        std.debug.print("  [Step {d}] Zero-overhead performance achieved.\\n", .{i + 1});
+        std.debug.print("  [Step {d}] Formatting example.\\n", .{i + 1});
     }
 }
 `,
     memory: `const std = @import("std");
 
 pub fn main(init: std.process.Init) !void {
-    // 1. 디버그 누수 탐지용 SafeAllocator / process GPA (Zig 0.17.0)
+    // 1. 프로세스가 제공하는 할당자 (브라우저 시뮬레이션은 누수를 검사하지 않음)
     const gpa = init.gpa;
 
     // 2. 동적 슬라이스 할당 (.empty idiom & 명시적 할당자 주입)
@@ -639,7 +657,7 @@ pub fn main(init: std.process.Init) !void {
     for (numbers.items, 0..) |val, idx| {
         std.debug.print("numbers[{d}] = {d}\\n", .{idx, val});
     }
-    std.debug.print("✅ [Memory Clean] 0 leaks detected upon exit.\\n", .{});
+    std.debug.print("ArrayList example complete.\\n", .{});
 }
 `,
     comptime: `const std = @import("std");
@@ -699,7 +717,7 @@ const Shape = union(enum) {
 pub fn main() void {
     const c = Shape{ .Circle = 5.0 };
     const r = Shape{ .Rectangle = .{ .width = 10.0, .height = 4.0 } };
-    const p = Shape.Point;
+    const p: Shape = .Point;
 
     std.debug.print("Circle area (r=5.0): {d:.2}\\n", .{c.area()});
     std.debug.print("Rectangle area (10x4): {d:.2}\\n", .{r.area()});
@@ -793,177 +811,23 @@ pub fn main() !void {
     return highlighted;
   }
 
-  // Real Dynamic Zig Diagnostic & Evaluation Engine
-  interface DiagnosticResult {
-    success: boolean;
-    output: string[];
-    errors: string[];
-    timeMs: number;
-  }
+  // Prepared teaching examples, never compiler output or runtime measurements.
+  const SAMPLE_OUTPUTS: Record<string, string[]> = {
+    hello: [
+      "Hello, Zig!",
+      ...Array.from({ length: 5 }, (_, i) => `  [Step ${i + 1}] Formatting example.`),
+    ],
+    memory: ["numbers[0] = 100", "numbers[1] = 200", "numbers[2] = 300", "ArrayList example complete."],
+    comptime: ["Popped: 777", "Popped: 99", "Popped: 42", "Popped from empty: null"],
+    structs: ["Circle area (r=5.0): 78.54", "Rectangle area (10x4): 40.00", "Point area: 0.00"],
+    quicksort: ["Before sort: 64 34 25 12 22 11 90 88 45 1", "After sort:  1 11 12 22 25 34 45 64 88 90"],
+    custom: ["Welcome, Zig Developer!", "42 + 58 = 100"],
+  };
 
-  function compileAndEvaluateZig(code: string): DiagnosticResult {
-    const start = performance.now();
-    const lines = code.split("\n");
-    const errors: string[] = [];
-    const stdout: string[] = [];
-
-    // 1. Static Lexical & Syntax Diagnostics
-    let braceCount = 0;
-    let parenCount = 0;
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].replace(/\/\/.*/, "");
-      for (const ch of line) {
-        if (ch === '{') braceCount++;
-        if (ch === '}') braceCount--;
-        if (ch === '(') parenCount++;
-        if (ch === ')') parenCount--;
-      }
-    }
-
-    if (braceCount !== 0) {
-      errors.push(`src/main.zig:${lines.length}:1: error: expected closing '}', unclosed brace block`);
-    }
-    if (parenCount !== 0) {
-      errors.push(`src/main.zig:${lines.length}:1: error: expected closing ')', unclosed parenthesis`);
-    }
-
-    const hasMain = code.includes("pub fn main") || code.includes("fn main");
-    const hasTest = code.includes("test ");
-    if (!hasMain && !hasTest) {
-      errors.push("src/main.zig:1:1: error: root source file has no 'main' function or 'test' declarations");
-    }
-
-    for (let i = 0; i < lines.length; i++) {
-      const trimmed = lines[i].trim();
-      const lineNum = i + 1;
-
-      if (trimmed.startsWith("//") || trimmed === "" || trimmed.endsWith("{") || trimmed.endsWith("}") || trimmed.endsWith(",")) {
-        continue;
-      }
-
-      if (
-        (trimmed.startsWith("const ") || trimmed.startsWith("var ") || trimmed.startsWith("std.debug.print") || trimmed.startsWith("return ") || trimmed.startsWith("try ")) &&
-        !trimmed.endsWith(";") &&
-        !trimmed.endsWith("{")
-      ) {
-        errors.push(`src/main.zig:${lineNum}:${trimmed.length + 1}: error: expected ';' after statement`);
-      }
-
-      if (/const\s+\w+\s*:\s*(u8|u16|u32|u64|i32|i64|usize)\s*=\s*"[^"]*"/.test(trimmed)) {
-        errors.push(`src/main.zig:${lineNum}: error: expected type 'integer', found '[]const u8' (string literal)`);
-      }
-
-      if (trimmed.includes("std.debug.print") && !code.includes("@import(\"std\")")) {
-        errors.push(`src/main.zig:${lineNum}:5: error: use of undeclared identifier 'std'`);
-      }
-    }
-
-    if (errors.length > 0) {
-      const end = performance.now();
-      return {
-        success: false,
-        output: [],
-        errors,
-        timeMs: Math.max(1, Math.round(end - start + 2)),
-      };
-    }
-
-    // 2. Dynamic Evaluation for Valid Code
-    const varMap: Map<string, any> = new Map();
-
-    for (let i = 0; i < lines.length; i++) {
-      const trimmed = lines[i].trim();
-
-      const varDecl = trimmed.match(/^(?:const|var)\s+(\w+)(?:\s*:\s*[\w\[\]]+)?\s*=\s*(.+);$/);
-      if (varDecl) {
-        const name = varDecl[1];
-        const expr = varDecl[2].trim();
-        if (/^[-+]?\d+$/.test(expr)) {
-          varMap.set(name, parseInt(expr, 10));
-        } else if (/^"([^"]*)"$/.test(expr)) {
-          varMap.set(name, expr.slice(1, -1));
-        }
-      }
-
-      const printMatch = trimmed.match(/std\.debug\.print\("([^"\\]*(?:\\.[^"\\]*)*)"(?:\s*,\s*\.\{([^}]*)\})?\);/);
-      if (printMatch) {
-        let fmt = printMatch[1].replace(/\\n/g, "").replace(/\\t/g, "  ");
-        const argsStr = printMatch[2] || "";
-        
-        if (argsStr.trim()) {
-          const rawArgs = argsStr.split(",").map(a => a.trim());
-          const evaluatedArgs: string[] = [];
-
-          for (const raw of rawArgs) {
-            if (raw === "") continue;
-            if (/^"([^"]*)"$/.test(raw)) {
-              evaluatedArgs.push(raw.slice(1, -1));
-            } else if (varMap.has(raw)) {
-              evaluatedArgs.push(String(varMap.get(raw)));
-            } else if (/^(\w+)\s*([\+\-\*\/])\s*(\w+)$/.test(raw)) {
-              const opMatch = raw.match(/^(\w+)\s*([\+\-\*\/])\s*(\w+)$/)!;
-              const v1 = varMap.has(opMatch[1]) ? varMap.get(opMatch[1]) : parseFloat(opMatch[1]);
-              const op = opMatch[2];
-              const v2 = varMap.has(opMatch[3]) ? varMap.get(opMatch[3]) : parseFloat(opMatch[3]);
-              if (!isNaN(v1) && !isNaN(v2)) {
-                let res = 0;
-                if (op === '+') res = v1 + v2;
-                if (op === '-') res = v1 - v2;
-                if (op === '*') res = v1 * v2;
-                if (op === '/') res = v2 !== 0 ? Math.floor(v1 / v2) : 0;
-                evaluatedArgs.push(String(res));
-              } else {
-                evaluatedArgs.push(raw);
-              }
-            } else {
-              evaluatedArgs.push(raw);
-            }
-          }
-
-          let argIdx = 0;
-          fmt = fmt.replace(/\{[^}]*\}/g, () => evaluatedArgs[argIdx++] ?? "");
-        }
-        stdout.push(fmt);
-      }
-    }
-
-    if (stdout.length === 0) {
-      if (code.includes("Zero-overhead")) {
-        stdout.push("Hello, Zig WebAssembly World! ⚡");
-        stdout.push("  [Step 1] Zero-overhead performance achieved.");
-        stdout.push("  [Step 2] Zero-overhead performance achieved.");
-        stdout.push("  [Step 3] Zero-overhead performance achieved.");
-        stdout.push("  [Step 4] Zero-overhead performance achieved.");
-        stdout.push("  [Step 5] Zero-overhead performance achieved.");
-      } else if (code.includes("SafeAllocator") || code.includes("DebugAllocator") || code.includes("ArrayList")) {
-        stdout.push("numbers[0] = 100");
-        stdout.push("numbers[1] = 200");
-        stdout.push("numbers[2] = 300");
-        stdout.push("✅ [Memory Clean] 0 leaks detected upon exit.");
-      } else if (code.includes("Stack(")) {
-        stdout.push("Popped: 777");
-        stdout.push("Popped: 99");
-        stdout.push("Popped: 42");
-        stdout.push("Popped from empty: null");
-      } else if (code.includes("Shape")) {
-        stdout.push("Circle area (r=5.0): 78.54");
-        stdout.push("Rectangle area (10x4): 40.00");
-        stdout.push("Point area: 0.00");
-      } else if (code.includes("quickSort")) {
-        stdout.push("Before sort: 64 34 25 12 22 11 90 88 45 1 ");
-        stdout.push("After sort:  1 11 12 22 25 34 45 64 88 90 ");
-      } else {
-        stdout.push("Program executed successfully with exit code 0 (no stdout).");
-      }
-    }
-
-    const end = performance.now();
-    return {
-      success: true,
-      output: stdout,
-      errors: [],
-      timeMs: Math.max(1, Math.round(end - start + Math.random() * 5 + 3)),
-    };
+  function simulateZigExample(code: string): string[] | null {
+    // Exact matching prevents edited/invalid code from receiving a fake success.
+    const key = Object.keys(PRESETS).find((key) => code === PRESETS[key]);
+    return key ? SAMPLE_OUTPUTS[key] : null;
   }
 
   // Setup DOM & Event Listeners
@@ -977,7 +841,7 @@ pub fn main() !void {
     const copyBtn = document.getElementById("copy-btn");
     const clearBtn = document.getElementById("clear-term-btn");
     const termOutput = document.getElementById("terminal-output");
-    const execTime = document.getElementById("exec-time");
+
     const execStatus = document.getElementById("exec-status");
 
     if (!editor || !highlightLayer || !lineNumbers || !presetSelect || !runBtn || !termOutput) return;
@@ -1049,7 +913,7 @@ pub fn main() !void {
 
     clearBtn?.addEventListener("click", () => {
       termOutput.innerHTML = '<div class="term-line term-dim">콘솔이 초기화되었습니다.</div>';
-      if (execTime) execTime.innerText = "0ms";
+
       if (execStatus) {
         execStatus.className = "status-indicator ready";
         execStatus.innerText = "READY";
@@ -1060,53 +924,19 @@ pub fn main() !void {
       if (!termOutput) return;
       const code = editor.value;
 
+      const output = simulateZigExample(code);
       if (execStatus) {
         execStatus.className = "status-indicator running";
-        execStatus.innerText = "COMPILING";
+        execStatus.innerText = output ? "SAMPLE ONLY" : "UNSUPPORTED";
       }
 
-      termOutput.innerHTML = '<div class="term-line term-info">⚡ Compiling & validating Zig AST in WASM sandbox...</div>';
-      runBtn.setAttribute("disabled", "true");
-
-      setTimeout(() => {
-        const result = compileAndEvaluateZig(code);
-        if (execTime) execTime.innerText = `${result.timeMs}ms`;
-
-        if (!result.success) {
-          if (execStatus) {
-            execStatus.className = "status-indicator error";
-            execStatus.innerText = "COMPILATION ERROR";
-          }
-
-          let errHtml = `<div class="term-line term-err">❌ Zig Compilation Error (${result.errors.length} error(s))</div>`;
-          errHtml += '<div class="term-line term-dim">─────────────────────────────────────────────────</div>';
-          for (const err of result.errors) {
-            errHtml += `<div class="term-diagnostic term-err">${escapeHtml(err)}</div>`;
-          }
-          termOutput.innerHTML = errHtml;
-        } else {
-          if (execStatus) {
-            execStatus.className = "status-indicator ready";
-            execStatus.innerText = "FINISHED";
-          }
-
-          let outputHtml = `<div class="term-line term-success">🚀 Process finished in ${result.timeMs}ms (exit code: 0)</div>`;
-          outputHtml += '<div class="term-line term-dim">─────────────────────────────────────────────────</div>';
-          for (const line of result.output) {
-            if (line.includes("Warning") || line.includes("❌")) {
-              outputHtml += `<div class="term-line term-err">${escapeHtml(line)}</div>`;
-            } else if (line.includes("✅")) {
-              outputHtml += `<div class="term-line term-success">${escapeHtml(line)}</div>`;
-            } else {
-              outputHtml += `<div class="term-line term-stdout">${escapeHtml(line)}</div>`;
-            }
-          }
-          termOutput.innerHTML = outputHtml;
-        }
-
-        termOutput.scrollTop = termOutput.scrollHeight;
-        runBtn.removeAttribute("disabled");
-      }, 75);
+      const notice = output
+        ? "교육용으로 준비된 예시 출력입니다. 실제 컴파일·실행 결과가 아닙니다."
+        : "수정한 코드 또는 미지원 입력은 시뮬레이션할 수 없습니다. 컴파일 성공 여부와 출력은 알 수 없습니다. 로컬 Zig 컴파일러로 확인하세요.";
+      termOutput.innerHTML = `<div class="term-line term-info">${notice}</div>`
+        + '<div class="term-line term-dim">성능 및 메모리 누수는 측정하지 않습니다.</div>'
+        + (output ?? []).map((line) => `<div class="term-line term-stdout">${escapeHtml(line)}</div>`).join("");
+      termOutput.scrollTop = termOutput.scrollHeight;
     });
 
     function escapeHtml(str: string) {

@@ -29,7 +29,7 @@ export default defineConfig({
           label: '시작하기',
           items: [
             { label: '프로젝트 소개 및 안내', slug: 'intro' },
-            { label: '⚡ WASM 플레이그라운드', slug: 'playground' },
+            { label: '⚡ 예제 시뮬레이터', slug: 'playground' },
             { label: '개발자 표준 용어집 (Glossary)', slug: 'glossary' },
           ],
         },
@@ -55,7 +55,7 @@ export default defineConfig({
         },
         {
           label: '📚 공식 언어 레퍼런스 (v0.17.0)',
-          badge: { text: '최신 안정판', variant: 'success' },
+          badge: { text: '0.17 계열 · 검증 0.17.1', variant: 'success' },
           items: [
             { autogenerate: { directory: 'docs/0.17.0' } }
           ],

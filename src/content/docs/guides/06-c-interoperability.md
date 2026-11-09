@@ -66,7 +66,7 @@ pub fn build(b: *std.Build) void {
         .name = "c-hybrid-app",
         .root_module = exe_mod,
     });
-    exe.addCSourceFile(.{
+    exe_mod.addCSourceFile(.{
         .file = b.path("c_src/fast_math.c"),
         .flags = &[_][]const u8{ "-Wall", "-O3" },
     });

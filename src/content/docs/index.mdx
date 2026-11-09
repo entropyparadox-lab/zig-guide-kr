@@ -11,7 +11,7 @@ hero:
       link: /zig-guide-kr/guides/01-getting-started/
       icon: right-arrow
       variant: primary
-    - text: ⚡ 브라우저 WASM 플레이그라운드
+    - text: ⚡ 브라우저 예제 시뮬레이터
       link: /zig-guide-kr/playground/
       icon: puzzle
       variant: secondary
@@ -36,6 +36,6 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 		Zig 0.17.0 공식 Language Reference를 1:1로 원문 그대로 충실하게 한글화했습니다. 스펙과 문법을 깊이 있게 참조할 때 활용하세요.
 	</Card>
 	<Card title="⚙️ CI 기반 코드 자동 검증" icon="setting">
-		문서에 포함된 모든 Zig 예제 코드는 GitHub Actions CI를 통해 실제 `zig test` 및 `zig build-exe`로 유효성을 자동 검증합니다.
+		현재 트랙의 Zig 코드 블록은 CI에서 테스트 실행, main 컴파일 또는 빌드 그래프 평가로 구분해 검증합니다. 역사 문서와 명시된 의사 코드는 제외합니다.
 	</Card>
 </CardGrid>

@@ -1,14 +1,15 @@
 {
   "name": "zig-guide-kr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
-    "test": "echo 'All snippets verified'",
-    "test:snippets": "./zig-out/bin/test-snippets",
+    "test": "zig build && python3 tools/test_snippets_regression.py && zig build test-snippets && pnpm test:playground",
+    "test:playground": "node --test tools/test_playground_presets.mjs",
+    "test:snippets": "zig build test-snippets",
     "watchdog": "./zig-out/bin/version-watchdog",
     "preview": "astro preview"
   },

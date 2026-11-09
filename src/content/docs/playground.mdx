@@ -1,6 +1,6 @@
 ---
-title: "⚡ Zig 브라우저 WASM 플레이그라운드"
-description: "서버 설치 없이 브라우저에서 직접 Zig 0.17.0 코드를 작성하고 WebAssembly로 즉시 실행해보는 인터랙티브 플레이그라운드입니다."
+title: "⚡ Zig 교육용 시뮬레이션 플레이그라운드"
+description: "정규식 기반 구문 강조와 JavaScript로 준비된 프리셋 예시 출력을 살펴보는 교육용 편집기입니다. 실제 Zig/WASM 컴파일러가 아닙니다."
 tableOfContents: false
 ---
 
@@ -8,7 +8,9 @@ import ZigPlayground from '../../components/ZigPlayground.astro';
 
 <div class="playground-hero">
   <p>
-    별도의 Zig 컴파일러 설치나 백엔드 서버 없이, <strong>100% 브라우저 클라이언트 환경(WASM)</strong>에서 Zig 0.17.0 예제 코드를 직접 수정하고 실행해볼 수 있습니다.
+    이 편집기는 <strong>정규식 기반 구문 강조와 JavaScript 시뮬레이션</strong>을 사용합니다.
+    Zig 예제를 읽고 수정할 수 있지만, 실제 Zig/WASM 컴파일러나 런타임은 포함하지 않습니다.
+    표시되는 출력은 원본 프리셋에 준비된 교육용 예시이며, 컴파일·실행 결과가 아닙니다.
   </p>
 </div>
 
@@ -19,5 +21,6 @@ import ZigPlayground from '../../components/ZigPlayground.astro';
 ### 💡 플레이그라운드 활용 팁
 
 1. **상단 드롭다운**에서 `01. Hello World`, `02. 메모리 할당자`, `03. Comptime 제네릭스`, `04. 구조체 & 유니온`, `05. 퀵 정렬` 등 실무 핵심 예제를 즉시 불러올 수 있습니다.
-2. 코드를 자유롭게 수정한 뒤 **[실행 (Run in WASM)]** 버튼을 누르면 브라우저 내부에서 프로세스가 실행되고 표준 출력이 터미널 콘솔에 출력됩니다.
-3. 실전 핸드북의 전체 10개 챕터 학습은 **[📖 Zig 실전 핸드북](/zig-guide-kr/guides/01-getting-started/)**에서 이어갈 수 있습니다.
+2. **[예시 출력 보기]** 버튼은 원본 프리셋과 정확히 일치하는 코드에 대해서만 준비된 예시 출력을 표시합니다. 코드를 수정하거나 미지원 입력을 넣으면 **미지원 안내**를 표시하며, 컴파일 성공이나 실행 성공으로 처리하지 않습니다.
+3. 문법·타입 검증, 실행 시간·성능 측정, 메모리 할당·해제 검증 및 누수 탐지는 제공하지 않습니다. 실제 결과는 로컬 Zig 컴파일러로 확인하세요.
+4. 실전 핸드북의 전체 10개 챕터 학습과 로컬 환경 설정은 [📖 Zig 실전 핸드북](/zig-guide-kr/guides/01-getting-started/)에서 이어갈 수 있습니다.

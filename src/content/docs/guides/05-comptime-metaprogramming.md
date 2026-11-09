@@ -106,9 +106,9 @@ fn printStructFields(comptime T: type) void {
     const info = @typeInfo(T);
     switch (info) {
         .@"struct" => |s| {
-            std.debug.print("Struct '{s}' has {d} fields:\n", .{ @typeName(T), s.fields.len });
-            inline for (s.fields) |field| {
-                std.debug.print(" - {s}: {s}\n", .{ field.name, @typeName(field.type) });
+            std.debug.print("Struct '{s}' has {d} fields:\n", .{ @typeName(T), s.field_names.len });
+            inline for (s.field_names, s.field_types) |name, field_type| {
+                std.debug.print(" - {s}: {s}\n", .{ name, @typeName(field_type) });
             }
         },
         else => @compileError("Expected a struct type"),

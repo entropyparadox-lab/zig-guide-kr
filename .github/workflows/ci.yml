@@ -1,0 +1,33 @@
+name: PR Quality Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.17.1
+      - name: Verify compiler and native snippets
+        run: |
+          test "$(zig version)" = "0.17.1"
+          zig fmt --check build.zig build.zig.zon tools/*.zig
+          zig build
+          python3 tools/test_snippets_regression.py
+          zig build test-snippets
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 10.33.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:playground
+      - run: pnpm build

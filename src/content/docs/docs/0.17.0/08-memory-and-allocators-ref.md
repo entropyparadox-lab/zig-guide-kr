@@ -45,7 +45,7 @@ test "aligned memory allocation" {
     const allocator = std.testing.allocator;
 
     // 16바이트 정렬된 메모리 할당
-    const aligned_slice = try allocator.alignedAlloc(u8, 16, 64);
+    const aligned_slice = try allocator.alignedAlloc(u8, .@"16", 64);
     defer allocator.free(aligned_slice);
 
     try std.testing.expect(@intFromPtr(aligned_slice.ptr) % 16 == 0);

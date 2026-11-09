@@ -1,6 +1,6 @@
 .{
     .name = .zig_guide_kr,
-    .version = "1.0.0",
+    .version = "1.0.1",
     .fingerprint = 0x74cc83186866a9e8,
     .minimum_zig_version = "0.17.0",
     .paths = .{
