@@ -54,17 +54,19 @@ mkdir hello-zig && cd hello-zig
 ```zig
 const std = @import("std");
 
-pub fn main() !void {
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Hello, {s}!\n", .{"World"});
+pub fn main(init: std.process.Init) !void {
+    var buffer: [1024]u8 = undefined;
+    var stdout = std.Io.File.stdout().writer(init.io, &buffer);
+    try stdout.interface.print("Hello, {s}!\n", .{"World"});
+    try stdout.interface.flush();
 }
 ```
 
 ### 코드 분석
 1. `const std = @import("std");`: Zig 표준 라이브러리를 임포트합니다.
-2. `pub fn main() !void`: 진입점 함수입니다. `!void`는 이 함수가 에러를 반환할 수 있는 에러 유니온(`Error!void`)임을 의미합니다.
-3. `const stdout = std.io.getStdOut().writer();`: 표준 출력 스트림의 `Writer` 인터페이스를 획득합니다.
-4. `try stdout.print(...)`: 포맷 문자열을 출력합니다. `try` 키워드는 I/O 작업 중 에러가 발생하면 호출자에게 즉시 에러를 전파(return)합니다.
+2. `pub fn main(init: std.process.Init) !void`: 프로세스의 I/O 구현과 할당자 등을 전달받는 진입점입니다. `!void`는 에러를 반환할 수 있음을 의미합니다.
+3. `std.Io.File.stdout().writer(init.io, &buffer)`: 명시적인 I/O 구현과 버퍼로 표준 출력 Writer를 만듭니다.
+4. `stdout.interface.print(...)`로 출력하고 `flush()`로 버퍼를 비웁니다. `try`는 I/O 에러를 호출자에게 전파합니다.
 
 ---
 

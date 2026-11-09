@@ -47,18 +47,19 @@ test "atomic value operations" {
 
 ---
 
-## 3. 동기화 프리미티브 (`std.Thread.Mutex`)
+## 3. 동기화 프리미티브 (`std.Io.Mutex`)
 
 ```zig
 const std = @import("std");
 
 test "mutex locking" {
-    var mutex = std.Thread.Mutex{};
+    const io = std.testing.io;
+    var mutex: std.Io.Mutex = .init;
     var shared_data: u32 = 0;
 
     {
-        mutex.lock();
-        defer mutex.unlock();
+        try mutex.lock(io);
+        defer mutex.unlock(io);
         shared_data += 42;
     }
 

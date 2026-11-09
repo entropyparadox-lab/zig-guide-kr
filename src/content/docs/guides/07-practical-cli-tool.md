@@ -11,11 +11,11 @@ description: "명령행 인자 파싱, 파일 I/O, 메모리 누수 방어, 에�
 
 ## 1. 프로젝트 목표 및 설계
 
-- **기능**: 입력 파일 경로를 받아 파일 내 모든 단어의 발생 빈도를 계산하고 상위 N개를 출력
+- **기능**: 입력 파일 경로를 받아 파일 내 모든 단어의 발생 빈도를 계산하고 출력 (해시맵 순서는 보장하지 않음)
 - **아키텍처 요구사항**:
-  - `GeneralPurposeAllocator`로 메인 메모리 관리 및 누수 차단
+  - `std.process.Init.gpa`로 메모리를 할당하고 `defer`로 해제
   - `std.StringHashMap(u32)`로 단어 카운팅
-  - 버퍼 I/O(`std.io.bufferedReader`)를 통한 고속 파일 읽기
+  - `std.Io.File.Reader`로 한 줄씩 읽기 (최대 줄 길이 4096바이트)
   - 깔끔한 인자 파싱 및 에러 리포팅
 
 ---
@@ -25,19 +25,13 @@ description: "명령행 인자 파싱, 파일 I/O, 메모리 누수 방어, 에�
 ```zig
 const std = @import("std");
 
-pub fn main() !void {
-    // 1. Allocator 초기화 및 메모리 누수 감시
-    var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-    defer {
-        const check = gpa.deinit();
-        if (check == .leak) {
-            std.debug.print("Error: memory leak detected in GPA\n", .{});
-        }
-    }
-    const allocator = gpa.allocator();
+pub fn main(init: std.process.Init) !void {
+    // 1. 프로세스가 제공하는 할당자와 I/O 구현
+    const allocator = init.gpa;
+    const io = init.io;
 
     // 2. 명령행 인자 파싱
-    var args = try std.process.argsWithAllocator(allocator);
+    var args = try init.minimal.args.iterateAllocator(allocator);
     defer args.deinit();
 
     _ = args.skip(); // 실행 바이너리 이름 건너뛰기
@@ -48,14 +42,15 @@ pub fn main() !void {
     };
 
     // 3. 파일 열기 및 버퍼 리더 설정
-    const file = std.fs.cwd().openFile(file_path, .{}) catch |err| {
+    const file = std.Io.Dir.cwd().openFile(io, file_path, .{}) catch |err| {
         std.debug.print("Failed to open file '{s}': {s}\n", .{ file_path, @errorName(err) });
         return err;
     };
-    defer file.close();
+    defer file.close(io);
 
-    var buf_reader = std.io.bufferedReader(file.reader());
-    var in_stream = buf_reader.reader();
+    var read_buffer: [4096]u8 = undefined;
+    var file_reader = file.reader(io, &read_buffer);
+    const in_stream = &file_reader.interface;
 
     // 4. 단어 빈도 해시맵 초기화
     var word_counts = std.StringHashMap(u32).init(allocator);
@@ -69,25 +64,26 @@ pub fn main() !void {
     }
 
     // 5. 한 줄씩 읽으며 공백/구두점 기준 단어 분리
-    var line_buf: [4096]u8 = undefined;
-    while (try in_stream.readUntilDelimiterOrEof(&line_buf, '\n')) |line| {
+    while (try in_stream.takeDelimiter('\n')) |line| {
         var tokenizer = std.mem.tokenizeAny(u8, line, " \t\r,.;:\"'!?()[]{}");
         while (tokenizer.next()) |token| {
             if (token.len == 0) continue;
 
-            const gop = try word_counts.getOrPut(token);
-            if (gop.found_existing) {
-                gop.value_ptr.* += 1;
+            if (word_counts.getPtr(token)) |count| {
+                count.* += 1;
             } else {
-                // 새로운 단어는 영구 보존을 위해 힙에 복사(dupe)
-                gop.key_ptr.* = try allocator.dupe(u8, token);
-                gop.value_ptr.* = 1;
+                // 리더 버퍼는 재사용되므로 키를 복사합니다.
+                const owned = try allocator.dupe(u8, token);
+                errdefer allocator.free(owned);
+                try word_counts.put(owned, 1);
             }
         }
     }
 
     // 6. 결과 출력
-    const stdout = std.io.getStdOut().writer();
+    var write_buffer: [4096]u8 = undefined;
+    var file_writer = std.Io.File.stdout().writer(io, &write_buffer);
+    const stdout = &file_writer.interface;
     try stdout.print("\n=== Word Frequency Results for '{s}' ===\n", .{file_path});
 
     var iter = word_counts.iterator();
@@ -98,6 +94,7 @@ pub fn main() !void {
     }
 
     try stdout.print("\nTotal unique words: {d}\n", .{total_unique});
+    try stdout.flush();
 }
 ```
 
@@ -114,7 +111,7 @@ echo "Zig is fast. Zig is simple! Zig is modern." > sample.txt
 ./main sample.txt
 ```
 
-출력 결과:
+출력 결과 (단어별 행 순서는 달라질 수 있습니다):
 ```text
 === Word Frequency Results for 'sample.txt' ===
  - Zig: 3
